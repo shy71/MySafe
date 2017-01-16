@@ -1,0 +1,26 @@
+﻿<Window x:Class="MySafeGUI.EncryptionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MySafeGUI"
+        mc:Ignorable="d"
+        Title="Encryption Window" Height="150" Width="300">
+    <Grid x:Name="grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Choose the file you want to encrypt bellow:" Grid.Row="0"/>
+        <Button x:Name="Browse" Content="Browse" Grid.Row="1" Click="Browse_Click" Width="50" HorizontalAlignment="Left"/>
+        <TextBlock x:Name="FilePathTxt" Grid.Row="1" HorizontalAlignment="Right"/>
+        <TextBlock Text="Enter a password for this file:" Grid.Row="2"/>
+        <PasswordBox x:Name="passwordBox" Grid.Row="3"/>
+        <Button x:Name="EncryptFileBtn" Content="Encrypt" Grid.Row="5" Click="EncryptFileBtn_Click" Width="100" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+        <Button x:Name="CancelBtn"  Content="Cancel" Grid.Row="5" Click="CancelBtn_Click" Width="100" HorizontalAlignment="Right" Margin="0,0,20,0"/>
+    </Grid>
+</Window>

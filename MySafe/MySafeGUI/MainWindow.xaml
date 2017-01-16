@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MySafeGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="My-Safe" Height="500" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.25*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Encrypt File" Click="EncryptBtn_Click"/>
+                <MenuItem Header="_Decrypt File" Click="DecryptBtn_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="Information" Header="_Information" Click="Information_Click"/>
+        </Menu>
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" FontSize="20" >
+            Welcome to My-Safe file emcryptor program.
+            <LineBreak/> For more information about this program you may read the description above.
+        </TextBlock>
+        <Button x:Name="EncryptBtn" Content="Encrypt a file" FontSize="20" Grid.Row="2" Margin="70,50,70,125" Click="EncryptBtn_Click"/>
+        <Button x:Name="DecryptBtn" Content="Decrypt a file" FontSize="20" Grid.Row="2" Grid.Column="1" Margin="70,50,70,125" Click="DecryptBtn_Click"/>
     </Grid>
 </Window>
