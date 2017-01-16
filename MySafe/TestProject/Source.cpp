@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <string.h>
+#include<iostream>
 #include<fstream>
 #include "sgx_urts.h"
 #include "Enclave_u.h"
@@ -30,6 +31,8 @@ int main()
 	}
 	ret = sgx_create_enclave(ENCLAVE_FILE, SGX_DEBUG_FLAG, &token, &updated,
 		&eid, NULL);
+	std::cout << ret;
+	system("pause");
 	if (false)
 	{
 		std::ofstream myfile1;
