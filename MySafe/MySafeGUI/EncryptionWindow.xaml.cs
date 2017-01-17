@@ -66,9 +66,12 @@ namespace MySafeGUI
                     break;
                 }
             }
+            cipherFileName += ".ens";
             FileStream cipherFile = new FileStream(cipherFileName, FileMode.CreateNew);
             byte[] cipherBytes = Encoding.ASCII.GetBytes(ciphertext);
             cipherFile.Write(cipherBytes, 0, cipherBytes.Length);
+            cipherFile.Close();
+            theFile.Close();            
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
