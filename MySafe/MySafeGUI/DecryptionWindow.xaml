@@ -1,0 +1,33 @@
+﻿<Window x:Class="MySafeGUI.DecryptionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MySafeGUI"
+        mc:Ignorable="d"
+        Title="DecryptionWindow" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Choose the file you want to decrypt bellow:" Grid.Row="0"/>
+        <Button x:Name="Browse" Content="Browse" Grid.Row="1" Click="Browse_Click" Width="50" HorizontalAlignment="Left"/>
+        <TextBlock x:Name="FilePathTxt" Grid.Row="1" HorizontalAlignment="Right"/>
+        <TextBlock Text="Enter the suffix of the file you want decrypted:" Grid.Row="2"/>
+        <TextBox x:Name="suffix" Grid.Row="3"/>
+        <TextBlock Text="Enter a password for this file:" Grid.Row="4"/>
+        <PasswordBox x:Name="passwordBox" Grid.Row="5"/>
+        <TextBlock Text="Enter the master password:" Grid.Row="6"/>
+        <PasswordBox x:Name="materPasswordBox" Grid.Row="7"/>
+        <Button x:Name="DecryptFileBtn" Content="Decrypt" Grid.Row="8" Click="DecryptFileBtn_Click" Width="100" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+        <Button x:Name="CancelBtn"  Content="Cancel" Grid.Row="8" Click="CancelBtn_Click" Width="100" HorizontalAlignment="Right" Margin="0,0,20,0"/>
+    </Grid>
+</Window>
