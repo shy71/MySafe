@@ -42,7 +42,7 @@ int main()
 {
 	sgx_enclave_id_t enclave = create_enclave();
 	int chosen=0;
-	while(chosen!=3)
+	while(chosen!=3) 
 	{
 		cout << "seal: 1 \nunseal: 2" << endl;
 		cin >> chosen;
