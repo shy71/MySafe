@@ -4,7 +4,9 @@ enclave {
     trusted {
         /* define ECALLs here. */
 		public void foo([out, size=len] char* buf, size_t len);
-		public int trySeal([out, size=len] char* buf, size_t len,int  encrypt);
+		public void seal([in, size=data_size]uint8_t *data_buffer, size_t data_size,[out, size=buffer_size]uint8_t *sealed_data,size_t buffer_size);
+		public void unseal([in, size=sealed_size]uint8_t *sealed_data, size_t sealed_size,[out, size=plain_data_size]uint8_t *plain_data,size_t plain_data_size);
+
     };
 
     untrusted {
