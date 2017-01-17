@@ -44,19 +44,19 @@ int main()
 	int chosen=0;
 	while(chosen!=3)
 	{
-		cout << "seal: 1 \n unseal: 2" << endl;
+		cout << "seal: 1 \nunseal: 2" << endl;
 		cin >> chosen;
 		if (chosen == 1)
 		{
 			char str[500], path[100];
 			uint8_t sealed_data[3000];
-			int size = 3000;
+			size_t size = 3000;
 			cout << "data:" << endl;
 			cin.getline(str, 500);
 			cin.getline(str, 500);
 			cout << "file path:" << endl;
 			cin.getline(path, 500);
-			seal(enclave, (uint8_t*)str, strlen(str), sealed_data, size);
+			seal(enclave, (uint8_t*)str, strlen(str), sealed_data,size, &size);
 			write_file(path, (char*)sealed_data, size);
 
 		}
@@ -64,12 +64,12 @@ int main()
 		{
 			char str[500], path[100];
 			uint8_t sealed_data[3000];
-			int size = 3000;
+			size_t size = 3000,text_size=500;
 			cout << "file path:" << endl;
 			cin.getline(path, 500);
 			cin.getline(path, 500);
 			read_file(path, (char*)sealed_data, size);
-			unseal(enclave, sealed_data, size, (uint8_t*)str, 500);
+			unseal(enclave, sealed_data, size, (uint8_t*)str, text_size, &text_size);
 			cout << "data:" << endl;
 			cout << str << endl;
 			system("pause");

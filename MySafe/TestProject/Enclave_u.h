@@ -21,8 +21,8 @@ int SGX_UBRIDGE(SGX_CDECL, sgx_thread_setwait_untrusted_events_ocall, (const voi
 int SGX_UBRIDGE(SGX_CDECL, sgx_thread_set_multiple_untrusted_events_ocall, (const void** waiters, size_t total));
 
 sgx_status_t foo(sgx_enclave_id_t eid, char* buf, size_t len);
-sgx_status_t seal(sgx_enclave_id_t eid, uint8_t* data_buffer, size_t data_size, uint8_t* sealed_data, size_t buffer_size);
-sgx_status_t unseal(sgx_enclave_id_t eid, uint8_t* sealed_data, size_t sealed_size, uint8_t* plain_data, size_t plain_data_size);
+sgx_status_t seal(sgx_enclave_id_t eid, uint8_t* data_buffer, size_t data_size, uint8_t* sealed_data, size_t buffer_size, size_t* actual_size);
+sgx_status_t unseal(sgx_enclave_id_t eid, uint8_t* sealed_data, size_t sealed_size, uint8_t* plain_data, size_t buffer_size, size_t* actual_size);
 
 #ifdef __cplusplus
 }
