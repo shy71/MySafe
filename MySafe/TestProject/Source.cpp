@@ -18,11 +18,22 @@ void write_file(char * path, char* buffer, size_t size)
 	file.write(buffer, size);
 	file.close();
 }
+int getFileSize(const char *add) {
+	ifstream mySource;
+	mySource.open(add, ios_base::binary);
+	mySource.seekg(0, ios_base::end);
+	int size = mySource.tellg();
+	mySource.close();
+	return size;
+}
 void read_file(char * path, char* buffer, size_t size)
 {
+	int fileSize=getFileSize(path);
+	if (fileSize > size)
+		return;//Error
 	std::ifstream file;
 	file.open(path);
-	file.read(buffer, size);
+	file.read(buffer, fileSize);
 	file.close();
 }
 sgx_enclave_id_t create_enclave()
