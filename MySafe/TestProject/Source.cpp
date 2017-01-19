@@ -52,39 +52,50 @@ sgx_enclave_id_t create_enclave()
 int main()
 {
 	sgx_enclave_id_t enclave = create_enclave();
+	char str[500], path[100];
+	uint8_t sealed_data[3000];
 	int chosen=0;
+	size_t size = 3000,text_size=500;
 	while(chosen!=3) 
 	{
 		cout << "seal: 1 \nunseal: 2" << endl;
 		cin >> chosen;
 		if (chosen == 1)
 		{
-			char str[500], path[100];
-			uint8_t sealed_data[3000];
-			size_t size = 3000;
+			 size = 3000;
 			cout << "data:" << endl;
 			cin.getline(str, 500);
 			cin.getline(str, 500);
 			cout << "file path:" << endl;
 			cin.getline(path, 500);
-			seal(enclave, (uint8_t*)str, strlen(str), sealed_data,size, &size);
+			seal_ex(enclave, (uint8_t*)str, strlen(str), sealed_data,size, &size);
 			write_file(path, (char*)sealed_data, size);
 
 		}
 		if (chosen == 2)
 		{
-			char str[500], path[100];
-			uint8_t sealed_data[3000];
-			size_t size = 3000,text_size=500;
+			size = 3000;
+			text_size = 500;
 			cout << "file path:" << endl;
 			cin.getline(path, 500);
 			cin.getline(path, 500);
 			read_file(path, (char*)sealed_data, size);
 			unseal(enclave, sealed_data, size, (uint8_t*)str, text_size, &text_size);
+			if (str == NULL)
+			{
+				cout << "error" << endl;
+			}
+
 			cout << "data:" << endl;
 			cout << str << endl;
-			system("pause");
+			system("pause");;
 		}
+		for (int i = 0; i < 500; i++)
+			str[i] = NULL;
+		for (int i = 0; i < 100; i++)
+			path[i] = NULL;
+		for (int i = 0; i < 3000; i++)
+			sealed_data[i] = NULL;
 	}
 	// Destroy the enclave when all Enclave calls finished.
 	if (SGX_SUCCESS != sgx_destroy_enclave(enclave))
