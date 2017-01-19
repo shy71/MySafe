@@ -45,7 +45,7 @@ void seal_ex(uint8_t *data_buffer, size_t data_size, uint8_t *sealed_data, size_
 	}
 	uint8_t* sealed_data_space = new uint8_t[sealed_size];
 	sgx_attributes_t attr;
-	attr.flags =SGX_FLAGS_PROVISION_KEY|SGX_FLAGS_INITTED | SGX_FLAGS_DEBUG | SGX_FLAGS_LICENSE_KEY;
+	attr.flags = SGX_FLAGS_PROVISION_KEY | SGX_FLAGS_LICENSE_KEY | SGX_FLAGS_INITTED |SGX_FLAGS_DEBUG | SGX_FLAGS_RESERVED;
 	attr.xfrm = 0;
 	sgx_status_t res = sgx_seal_data_ex(1, attr, NULL, NULL, NULL, data_size, data_buffer, sealed_size, (sgx_sealed_data_t *)sealed_data_space);
 	//sgx_status_t res = sgx_seal_data(0, NULL, data_size, data_buffer, sealed_size, (sgx_sealed_data_t *)sealed_data_space);
@@ -73,9 +73,8 @@ void unseal(uint8_t *sealed_data, size_t sealed_size,uint8_t *plain_data, size_t
 		*actual_size = plain_data_size;
 		return;//Error
 	}
-
 	uint8_t* plain_data_space = new uint8_t[plain_data_size];
-	sgx_status_t res = res = sgx_unseal_data((sgx_sealed_data_t *)sealed_space, NULL, NULL, plain_data_space, &plain_data_size);
+	sgx_status_t res = sgx_unseal_data((sgx_sealed_data_t *)sealed_space, NULL, NULL, plain_data_space, &plain_data_size);
 	if (res)
 	{
 		*actual_size =- res;
