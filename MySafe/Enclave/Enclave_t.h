@@ -15,8 +15,8 @@ extern "C" {
 
 
 void foo(char* buf, size_t len);
-void seal(uint8_t* data_buffer, size_t data_size, uint8_t* sealed_data, size_t buffer_size);
-void unseal(uint8_t* sealed_data, size_t sealed_size, uint8_t* plain_data, size_t plain_data_size);
+void seal(uint8_t* data_buffer, size_t data_size, uint8_t* sealed_data, size_t buffer_size, size_t* actual_size);
+void unseal(uint8_t* sealed_data, size_t sealed_size, uint8_t* plain_data, size_t buffer_size, size_t* actual_size);
 
 sgx_status_t SGX_CDECL sgx_oc_cpuidex(int cpuinfo[4], int leaf, int subleaf);
 sgx_status_t SGX_CDECL sgx_thread_wait_untrusted_event_ocall(int* retval, const void* self);

@@ -6,6 +6,10 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.tlog
+*.exp
+*.lastbuildstate
+*.sln
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -243,4 +247,8 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/MySafe/Prerelease
+*.idb
+*.tlog
+*.exp
+*.lastbuildstate
+*.sln
