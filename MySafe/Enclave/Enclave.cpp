@@ -45,11 +45,21 @@ void seal_ex(uint8_t *data_buffer, size_t data_size, uint8_t *sealed_data, size_
 	}
 	uint8_t* sealed_data_space = new uint8_t[sealed_size];
 	sgx_attributes_t attr;
-	attr.flags = SGX_FLAGS_PROVISION_KEY | SGX_FLAGS_LICENSE_KEY | SGX_FLAGS_INITTED |SGX_FLAGS_DEBUG | SGX_FLAGS_RESERVED;
+	attr.flags = SGX_FLAGS_PROVISION_KEY| SGX_FLAGS_INITTED |SGX_FLAGS_DEBUG;
+	((sgx_sealed_data_t *)sealed_data_space)->key_request.key_name = 2;
+	my_print2((int)(((sgx_sealed_data_t *)sealed_data_space)->key_request.key_name));
+
 	attr.xfrm = 0;
-	sgx_status_t res = sgx_seal_data_ex(1, attr, NULL, NULL, NULL, data_size, data_buffer, sealed_size, (sgx_sealed_data_t *)sealed_data_space);
+	
+	sgx_status_t res = sgx_seal_data_ex(SGX_KEYPOLICY_MRENCLAVE, attr, NULL, NULL, NULL, data_size, data_buffer, sealed_size, (sgx_sealed_data_t *)sealed_data_space);
 	//sgx_status_t res = sgx_seal_data(0, NULL, data_size, data_buffer, sealed_size, (sgx_sealed_data_t *)sealed_data_space);
-		if (res)
+	my_print((char *)(((sgx_sealed_data_t *)sealed_data_space)->key_request.cpu_svn.svn), SGX_CPUSVN_SIZE);
+	my_print2((int)(((sgx_sealed_data_t *)sealed_data_space)->key_request.key_name));
+	my_print2((int)(((sgx_sealed_data_t *)sealed_data_space)->key_request.isv_svn));
+	my_print2((int)(((sgx_sealed_data_t *)sealed_data_space)->key_request.key_policy));
+	my_print2((int)(((sgx_sealed_data_t *)sealed_data_space)->key_request.attribute_mask.flags));
+
+	if (res)
 		{
 			*actual_size = -res;;
 			return;
@@ -57,20 +67,25 @@ void seal_ex(uint8_t *data_buffer, size_t data_size, uint8_t *sealed_data, size_
 	*actual_size = sealed_size;
 	memcpy(sealed_data, sealed_data_space, sealed_size);
 }
+void get_random()
+{
+
+}
 void unseal(uint8_t *sealed_data, size_t sealed_size,uint8_t *plain_data, size_t buffer_size, size_t* actual_size)
 {
 	uint8_t* sealed_space = new uint8_t[sealed_size];
 	memcpy(sealed_space, sealed_data, sealed_size);
-	*actual_size = sealed_space[0];
 	uint32_t plain_data_size = sgx_get_encrypt_txt_len((sgx_sealed_data_t *)sealed_space);
 	if (plain_data_size == UINT32_MAX)
 	{
+		my_print("UINT32_MAX", 10);
 		*actual_size = -1;
 		return;//Error
 	}
 	else if (plain_data_size > buffer_size)
 	{
 		*actual_size = plain_data_size;
+		my_print2(plain_data_size);
 		return;//Error
 	}
 	uint8_t* plain_data_space = new uint8_t[plain_data_size];
@@ -78,11 +93,12 @@ void unseal(uint8_t *sealed_data, size_t sealed_size,uint8_t *plain_data, size_t
 	if (res)
 	{
 		*actual_size =- res;
+		my_print2((int)res);
 		return;//Error
 	}
 	*actual_size = plain_data_size;
 	memcpy(plain_data, plain_data_space, plain_data_size);
-
+	memset_s(plain_data_space, plain_data_size, 0, plain_data_size);
 }
 
 //int trySeal(char *bufin,char *bufout, size_t len, int  encrypt)

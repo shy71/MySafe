@@ -14,17 +14,32 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Generated Files">
-      <UniqueIdentifier>{5e3548c8-24fb-4629-aac3-8852afdfb070}</UniqueIdentifier>
+      <UniqueIdentifier>{ed12fb28-1b82-4cf7-ab0c-d2f15c9c1bd2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enclave_u.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="FileManger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileValut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Enclave_u.c">
       <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileValut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TestProject\Testing.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

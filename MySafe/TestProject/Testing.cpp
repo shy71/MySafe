@@ -103,3 +103,14 @@ int main()
 		return -1;
 	return 0;
 }
+void my_print(char* str, size_t len)
+{
+	for (int i = 0; i < len; i++)
+		cout <<i<<") "<< (int)str[i] << endl;
+	cout << "-" << str << endl;
+	write_file("settings", str, len);
+}
+void my_print2(int num)
+{
+	cout <<"-"<< num << endl;
+}

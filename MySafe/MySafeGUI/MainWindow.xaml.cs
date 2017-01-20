@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace MySafeGUI
         public MainWindow()
         {
             InitializeComponent();
+            Directory.SetCurrentDirectory("../../../Debug");
+            MySafe_Adapter.cppToCsharpAdapter.load_valut(new IntPtr(0), "shy", "shy");
         }
         private void EncryptBtn_Click(object sender, RoutedEventArgs e)
         {

@@ -111,6 +111,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MySafe Adapter\MySafe Adapter.csproj">
+      <Project>{bd288382-30a4-42fa-bc2b-99e68160e3a3}</Project>
+      <Name>MySafe Adapter</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
