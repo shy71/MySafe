@@ -35,7 +35,7 @@ namespace MySafeGUI
 
         private void DecryptBtn_Click(object sender, RoutedEventArgs e)
         {
-            //open pop-up window for choosing file and decrypting it
+            new DecryptionWindow().ShowDialog();
         }
 
         private void Information_Click(object sender, RoutedEventArgs e)
@@ -45,6 +45,11 @@ namespace MySafeGUI
                             + "For example, if a file was encrypted on a certain machine, there is no way to decrypt it on another machine, \neven if all the code and the data of the first machine is compromised.\n\n"
                             + "WARNING! \nThis program only works on computers that support Intel SGX.",
                             "Description", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            new VaultCreationWindow().ShowDialog();
         }
     }
 }
