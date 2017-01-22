@@ -21,22 +21,10 @@
     <ClInclude Include="Enclave_u.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileManger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileValut.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Enclave_u.c">
       <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FileManger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FileValut.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\TestProject\Testing.cpp">
       <Filter>Source Files</Filter>
