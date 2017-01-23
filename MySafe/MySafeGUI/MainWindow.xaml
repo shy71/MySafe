@@ -18,7 +18,8 @@
         </Grid.ColumnDefinitions>
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
             <MenuItem Header="_File">
-                <MenuItem Header="_Create File" Click="MenuItem_Click"/>
+                <MenuItem Header="_Create Vault" Click="MenuItem_Click"/>
+                <MenuItem Header="_Load Vault" Click="MenuItem_Click_1"/>
                 <MenuItem Header="_Encrypt File" Click="EncryptBtn_Click"/>
                 <MenuItem Header="_Decrypt File" Click="DecryptBtn_Click"/>
             </MenuItem>

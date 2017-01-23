@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MySafe_Adapter;
 
 namespace MySafeGUI
 {
@@ -20,16 +21,51 @@ namespace MySafeGUI
     /// </summary>
     public partial class VaultCreationWindow : Window
     {
+        FileVault vault;
         public VaultCreationWindow()
         {
             InitializeComponent();
-            Directory.SetCurrentDirectory("../../../Debug");
         }
-
+        public VaultCreationWindow(FileVault v)
+        {
+            InitializeComponent();
+            vault = v;
+        }
+        string FileDir = "";
         private void Done_Click(object sender, RoutedEventArgs e)
         {
-            MySafe_Adapter.cppToCsharpAdapter.load_valut(new IntPtr(0), VaultName.Text, masterPassword.Text);
+            if(FileDir == "")
+            {
+                MessageBox.Show("You must enter a directory path for the vault", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                return;
+            }
+            //create vault
+            try
+            {
+                vault.CreateVault(FileDir, masterPassword.Text);
+            }
+            catch(Exception err)
+            {
+                MessageBox.Show(err.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                return;
+            }
+
             MessageBox.Show("The vault has been created successfully.", "Vault Created", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+        }
+
+        private void vaultDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK)
+                FileDir = dialog.SelectedPath;
+            vaultDirectory.Text = FileDir;
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

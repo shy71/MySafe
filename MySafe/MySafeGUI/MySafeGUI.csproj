@@ -57,6 +57,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LoadVaultWindow.xaml.cs">
+      <DependentUpon>LoadVaultWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VaultCreationWindow.xaml.cs">
       <DependentUpon>VaultCreationWindow.xaml</DependentUpon>
     </Compile>
@@ -65,6 +68,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EncryptionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoadVaultWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -22,20 +22,36 @@ namespace MySafeGUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        FileVault vault = null;
         public MainWindow()
         {
+            vault = new FileVault();
             InitializeComponent();
-            Directory.SetCurrentDirectory("../../../Debug");
+            Directory.SetCurrentDirectory("../../../Simulation");
         }
         private void EncryptBtn_Click(object sender, RoutedEventArgs e)
         {
-            //open pop-up window for choosing file and encrypting it
-            new EncryptionWindow().ShowDialog();
+            try
+            {
+                //open pop-up window for choosing file and encrypting it
+                new EncryptionWindow(vault).ShowDialog();
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
         }
 
         private void DecryptBtn_Click(object sender, RoutedEventArgs e)
         {
-            new DecryptionWindow().ShowDialog();
+            try
+            {
+                new DecryptionWindow(vault).ShowDialog();
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
         }
 
         private void Information_Click(object sender, RoutedEventArgs e)
@@ -49,7 +65,28 @@ namespace MySafeGUI
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            new VaultCreationWindow().ShowDialog();
+            try
+            {
+                new VaultCreationWindow(vault).ShowDialog();
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                vault = null;
+            }
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                new LoadVaultWindow(vault).ShowDialog();
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                vault = null;
+            }
         }
     }
 }
