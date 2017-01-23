@@ -13,6 +13,8 @@ void FileManger::write_file(char * path, char* buffer, size_t size)
 {
 	std::ofstream file;
 	file.open(path, ios_base::binary);
+	if (!file.is_open())
+		throw "File wasn't open";
 	file.write(buffer, size);
 	file.close();
 }
@@ -25,13 +27,26 @@ int FileManger::getFileSize(const char * path)
 	mySource.close();
 	return size;
 }
-void FileManger::read_file(char * path, char* buffer, size_t size)
+void FileManger::read_file(char * path, char* buffer, size_t size,size_t *actual_len)
 {
-	//int fileSize = getFileSize(path);
-	//if (fileSize > size)
-	//	return;//Error
+	int fileSize = getFileSize(path);
+	if (fileSize < size)
+		if (actual_len == NULL)
+		{
+			size = fileSize;
+		}
+		else
+		{
+			*actual_len = fileSize;
+			size = fileSize;
+		}
 	std::ifstream file;
 	file.open(path, ios_base::binary);
+	if (!file.is_open())
+		throw "File wasn't open";
 	file.read(buffer, size);
 	file.close();
+
 }
+
+

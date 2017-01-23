@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using MySafe_Adapter;
 namespace MySafeGUI
 {
     /// <summary>
@@ -25,7 +26,6 @@ namespace MySafeGUI
         {
             InitializeComponent();
             Directory.SetCurrentDirectory("../../../Debug");
-            MySafe_Adapter.cppToCsharpAdapter.load_valut(new IntPtr(0), "shy", "shy");
         }
         private void EncryptBtn_Click(object sender, RoutedEventArgs e)
         {

@@ -3,17 +3,22 @@ enclave {
 
     trusted {
         /* define ECALLs here. */
-		/*public void foo([out, size=len] char* buf, size_t len);
-		public void seal([in, size=data_size]uint8_t *data_buffer, size_t data_size,[out, size=buffer_size]uint8_t *sealed_data,size_t buffer_size,[out]size_t* actual_size);
-		public void seal_ex([in, size=data_size]uint8_t *data_buffer, size_t data_size,[out, size=buffer_size]uint8_t *sealed_data,size_t buffer_size,[out]size_t* actual_size);*/
-		public sgx_status_t create_valut_file([in,size=len]char* password,size_t len,[out, size=buffer_size]uint8_t *sealed_data,size_t buffer_size,[out]size_t* actual_size);
-		public sgx_status_t load_valut_from_file([in,size=len]char* password, size_t len,[in, size=sealed_size] uint8_t *sealed_data, size_t sealed_size);
-
-
+		public sgx_status_t create_valut_file([in,size=100]char* path,[in,size=len]char* password,size_t len);
+		public sgx_status_t load_valut_from_file([in,size=100]char* path,[in,size=len]char* password, size_t len);
+		public sgx_status_t enclave_encrypt_file([in,size=100]char * path,[in,size=len] char * file_password,size_t len);
+		public sgx_status_t enclave_decrypt_file([in,size=100]char * path,[in,size=100]char *newpath,[in,size=len] char * file_password, size_t len);
+		public void enclave_close_valut();
     };
 
     untrusted {
         /* define OCALLs here. */
+		uint8_t encalve_write_file([in,size=100] char *path,[in,size=len] char* buffer,size_t len);
+			
+		uint8_t encalve_read_file([in,size=100] char *path,[out,size=len] char* buffer,size_t len,[in]size_t *actual_len);
+		void encalve_file_size([in,size=100] char *path,[out]size_t *file_size);
+		void get_file_istream([in,size=100]char* path,[out] uint8_t *pointer,[out] uint32_t *size,uint32_t offset);
+		void get_file_ostream([in,size=100]char * path, [out] uint8_t *pointer);
+
         void my_print([in, size=len] char* str, size_t len);
 		        void my_print2(int num);
 

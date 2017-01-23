@@ -13,13 +13,16 @@ struct FileValut
 	sgx_status_t res;
 public:
 	FileValut();
-	static FileValut* makeFileValutObject(char *path, char *mater_password);
-	static FileValut* makeFileValutObject(char *path, char *mater_password, bool create_new);
+	~FileValut();
 	void create_valut(char * path, char * master_password);
+	void close_enclave();
 	void load_valut(char * path, char * master_password);
-	void encrypt_file(char * path, char * user_password);
-	void decrypt_file(char * path, char * user_password);
+	void close_valut();
+	void encrypt_file(char * path, char * file_password);
+	void decrypt_file(char * path, char* newpath, char * file_password);
 	void changer_user_password(char * path, char * old_password, char * new_password);
 	void SetLastErrorMessage(const char * error);
+	string GetLastErrorMessage();
+
 
 };
