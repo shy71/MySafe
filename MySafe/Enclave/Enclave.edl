@@ -6,15 +6,17 @@ enclave {
 		public sgx_status_t create_valut_file([in,size=100]char* path,[in,size=len]char* password,size_t len);
 		public sgx_status_t load_valut_from_file([in,size=100]char* path,[in,size=len]char* password, size_t len);
 		public sgx_status_t enclave_encrypt_file([in,size=100]char * path,[in,size=len] char * file_password,size_t len);
-		public sgx_status_t enclave_decrypt_file([in,size=100]char * path,[in,size=100]char *newpath,[in,size=len] char * file_password, size_t len);
+		public sgx_status_t enclave_decrypt_file([in,size=100]char * path,[in,size=100]char *new_path,[in,size=len] char * file_password, size_t len);
 		public void enclave_close_valut();
     };
 
     untrusted {
         /* define OCALLs here. */
 		uint8_t encalve_write_file([in,size=100] char *path,[in,size=len] char* buffer,size_t len);
-			
-		uint8_t encalve_read_file([in,size=100] char *path,[out,size=len] char* buffer,size_t len,[in]size_t *actual_len);
+		uint8_t encalve_write_end_of_open_file([in,size=100] char *path,[in,size=len] char* buffer,size_t len,int call_type);
+		uint8_t encalve_read_file([in,size=100] char *path,[out,size=len] char* buffer,size_t len,[out]size_t *actual_len);
+		uint8_t encalve_read_part_open_file([in,size=100] char *path,[out,size=len] char* buffer,size_t len,[out]size_t *actual_len,int call_type);
+
 		void encalve_file_size([in,size=100] char *path,[out]size_t *file_size);
 		void get_file_istream([in,size=100]char* path,[out] uint8_t *pointer,[out] uint32_t *size,uint32_t offset);
 		void get_file_ostream([in,size=100]char * path, [out] uint8_t *pointer);

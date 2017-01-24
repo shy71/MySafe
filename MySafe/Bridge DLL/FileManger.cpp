@@ -18,6 +18,26 @@ void FileManger::write_file(char * path, char* buffer, size_t size)
 	file.write(buffer, size);
 	file.close();
 }
+void FileManger::encalve_write_end_of_open_file(char * path, char* buffer, size_t size,int call_type)
+{
+	static 	std::ofstream file;
+	if (call_type ==0)
+	{
+		file.open(path, ios_base::binary);
+		if (!file.is_open())
+			throw "File wasn't open";
+	}
+	else if (call_type == 2)
+	{
+		file.close();
+	}
+	else if (call_type == 1)
+	{
+		if (!file.is_open())
+			throw "File wasn't open";
+		file.write(buffer, size);
+	}
+}
 int FileManger::getFileSize(const char * path)
 {
 	ifstream mySource;
@@ -27,7 +47,7 @@ int FileManger::getFileSize(const char * path)
 	mySource.close();
 	return size;
 }
-void FileManger::read_file(char * path, char* buffer, size_t size,size_t *actual_len)
+void FileManger::read_file(char * path, char* buffer, size_t size, size_t *actual_len)
 {
 	int fileSize = getFileSize(path);
 	if (fileSize < size)
@@ -46,6 +66,43 @@ void FileManger::read_file(char * path, char* buffer, size_t size,size_t *actual
 		throw "File wasn't open";
 	file.read(buffer, size);
 	file.close();
+
+}
+void FileManger::read_part_open_file(char * path, char* buffer, size_t size, size_t *actual_len,int call_type)
+{
+	static int fileSize;
+	static int counter;
+	static std::ifstream file;
+
+	if (call_type == 0)
+	{
+		file.open(path, ios_base::binary);
+		if (!file.is_open())
+			throw "File wasn't open";
+		fileSize = getFileSize(path);
+		counter = 0;
+	}
+	else if (call_type == 2)
+	{
+		counter = 0;
+		fileSize = 0;
+		file.close();
+	}
+	else if (call_type == 1)
+	{
+		if (!file.is_open())
+			throw "File wasn't open";
+		if (fileSize < counter + size)
+		{
+			if (actual_len != NULL)
+				*actual_len = fileSize - counter;
+		}
+		else
+			if (actual_len != NULL)
+				*actual_len = size;
+		file.read(buffer, size);
+		counter += *actual_len;
+	}
 
 }
 
