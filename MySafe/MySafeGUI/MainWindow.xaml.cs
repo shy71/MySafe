@@ -31,6 +31,10 @@ namespace MySafeGUI
         }
         private void EncryptBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (vault == null)
+            {
+                MessageBox.Show("There is no open vault at the moment to decrypt with", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
             try
             {
                 //open pop-up window for choosing file and encrypting it
@@ -44,6 +48,10 @@ namespace MySafeGUI
 
         private void DecryptBtn_Click(object sender, RoutedEventArgs e)
         {
+            if(vault == null)
+            {
+                MessageBox.Show("There is no open vault at the moment to decrypt with", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
             try
             {
                 new DecryptionWindow(vault).ShowDialog();
@@ -74,6 +82,10 @@ namespace MySafeGUI
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
                 vault = null;
             }
+            finally
+            {
+                openVault.Text = (vault == null) ? "There isn't any open vault currently." : "There is a an open vault now.";
+            }
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
@@ -86,6 +98,10 @@ namespace MySafeGUI
             {
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
                 vault = null;
+            }
+            finally
+            {
+                openVault.Text = (vault == null) ? "There isn't any open vault currently." : "There is a an open vault now.";
             }
         }
     }

@@ -8,8 +8,9 @@
         Title="My-Safe" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.25*"/>
+            <RowDefinition Height="0.3*"/>
             <RowDefinition Height="2*"/>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -29,7 +30,9 @@
             Welcome to My-Safe file emcryptor program.
             <LineBreak/> For more information about this program you may read the description above.
         </TextBlock>
-        <Button x:Name="EncryptBtn" Content="Encrypt a file" FontSize="20" Grid.Row="2" Margin="70,50,70,125" Click="EncryptBtn_Click"/>
-        <Button x:Name="DecryptBtn" Content="Decrypt a file" FontSize="20" Grid.Row="2" Grid.Column="1" Margin="70,50,70,125" Click="DecryptBtn_Click"/>
+        <TextBlock Text="Open Vault:" FontSize="20" VerticalAlignment="Center" Grid.Row="2" HorizontalAlignment="Left"/>
+        <TextBlock x:Name="openVault" FontSize="20" VerticalAlignment="Center" Margin="120,0,0,0" Grid.Row="2" HorizontalAlignment="Left"/>
+        <Button x:Name="EncryptBtn" Content="Encrypt a file" FontSize="20" Grid.Row="3" Margin="70,50,70,125" Click="EncryptBtn_Click"/>
+        <Button x:Name="DecryptBtn" Content="Decrypt a file" FontSize="20" Grid.Row="3" Grid.Column="1" Margin="70,50,70,125" Click="DecryptBtn_Click"/>
     </Grid>
 </Window>
