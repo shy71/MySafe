@@ -7,28 +7,28 @@ using System.Threading.Tasks;
 
 namespace MySafe_Adapter
 {
-    public class FileValut
+    public class FileVault
     {
-        IntPtr myFileValutPointer;
+        IntPtr myFileVaultPointer;
 
-        public FileValut()
+        public FileVault()
         {
-            myFileValutPointer = cppToCsharpAdapter.makeFileValutobj();
+            myFileVaultPointer = cppToCsharpAdapter.makeFileValutobj();
         }
-        ~FileValut()
+        ~FileVault()
         {
-            if (myFileValutPointer != null)
-                cppToCsharpAdapter.deleteFileValutobj(ref myFileValutPointer);
+            if (myFileVaultPointer != null)
+                cppToCsharpAdapter.deleteFileValutobj(ref myFileVaultPointer);
         }
-        public void CreateValut(string path, string masterPassword)
+        public void CreateVault(string path, string masterPassword)
         {
             try
             {
-                cppToCsharpAdapter.create_valut(this.myFileValutPointer, path, masterPassword);
+                cppToCsharpAdapter.create_valut(this.myFileVaultPointer, path, masterPassword);
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileValutPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
@@ -37,15 +37,15 @@ namespace MySafe_Adapter
                 throw;
             }
         }
-        public void LoadValut(string path, string masterPassword)
+        public void LoadVault(string path, string masterPassword)
         {
             try
             {
-                cppToCsharpAdapter.load_valut(this.myFileValutPointer, path, masterPassword);
+                cppToCsharpAdapter.load_valut(this.myFileVaultPointer, path, masterPassword);
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileValutPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
@@ -58,11 +58,11 @@ namespace MySafe_Adapter
         {
             try
             {
-                cppToCsharpAdapter.encrypt_file(this.myFileValutPointer, path, filePassword);
+                cppToCsharpAdapter.encrypt_file(this.myFileVaultPointer, path, filePassword);
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileValutPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
@@ -75,11 +75,11 @@ namespace MySafe_Adapter
         {
             try
             {
-                cppToCsharpAdapter.decrypt_file(this.myFileValutPointer, encryptedFilePath, newPlainTextPath, filePassword);
+                cppToCsharpAdapter.decrypt_file(this.myFileVaultPointer, encryptedFilePath, newPlainTextPath, filePassword);
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileValutPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
@@ -88,7 +88,7 @@ namespace MySafe_Adapter
                 throw;
             }
         }
-        private void CloseValut()
+        private void CloseVault()
         {
             try
             {
@@ -96,7 +96,7 @@ namespace MySafe_Adapter
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileValutPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }

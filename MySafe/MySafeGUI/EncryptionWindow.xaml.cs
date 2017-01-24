@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MySafe_Adapter;
 
 namespace MySafeGUI
 {
@@ -20,12 +21,17 @@ namespace MySafeGUI
     /// </summary>
     public partial class EncryptionWindow : Window
     {
+        FileVault vault;
         public string FileName { get; set; }
         public EncryptionWindow()
         {
             InitializeComponent();
         }
-
+        public EncryptionWindow(FileVault v)
+        {
+            InitializeComponent();
+            vault = v;
+        }
         private void Browse_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -39,39 +45,36 @@ namespace MySafeGUI
 
         private void EncryptFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            FileStream theFile = new FileStream(FileName, FileMode.Open);
-            byte[] arr = new byte[theFile.Length];
-            int length = theFile.Read(arr,0,(int)theFile.Length);
-            StringBuilder plaintext = new StringBuilder();
-            foreach (byte b in arr)
-            {
-                plaintext.Append(b);
-            }
-            File.Delete(FileName);
-            System.Security.SecureString password = passwordBox.SecurePassword;
-            string cipherFileName = "";
+            //FileStream theFile = new FileStream(FileName, FileMode.Open);
+            //byte[] arr = new byte[theFile.Length];
+            //int length = theFile.Read(arr,0,(int)theFile.Length);
+            //StringBuilder plaintext = new StringBuilder();
+            //foreach (byte b in arr)
+            //{
+            //    plaintext.Append(b);
+            //}
+            //File.Delete(FileName);
+            //string password = passwordBox.Text;
+            //string cipherFileName = "";
 
 
+            vault.EncryptFile(FileName, passwordBox.Text);
+            
 
-            string ciphertext="";//= encrypted text of file
-                                 //send the password and 
-
-
-
-            for (int i = FileName.Length - 1; i >= 0 ; i--)
-            {
-                if(FileName[i] == '.')
-                {
-                    cipherFileName = FileName.Substring(0, i);
-                    break;
-                }
-            }
-            cipherFileName += ".ens";
-            FileStream cipherFile = new FileStream(cipherFileName, FileMode.CreateNew);
-            byte[] cipherBytes = Encoding.ASCII.GetBytes(ciphertext);
-            cipherFile.Write(cipherBytes, 0, cipherBytes.Length);
-            cipherFile.Close();
-            theFile.Close();            
+            //for (int i = FileName.Length - 1; i >= 0 ; i--)
+            //{
+            //    if(FileName[i] == '.')
+            //    {
+            //        cipherFileName = FileName.Substring(0, i);
+            //        break;
+            //    }
+            //}
+            //cipherFileName += ".ens";
+            //FileStream cipherFile = new FileStream(cipherFileName, FileMode.CreateNew);
+            //byte[] cipherBytes = Encoding.ASCII.GetBytes(ciphertext);
+            //cipherFile.Write(cipherBytes, 0, cipherBytes.Length);
+            //cipherFile.Close();
+            //theFile.Close();            
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)

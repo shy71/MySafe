@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MySafe_Adapter;
 
 namespace MySafeGUI
 {
@@ -20,38 +21,48 @@ namespace MySafeGUI
     /// </summary>
     public partial class DecryptionWindow : Window
     {
+        FileVault vault;
         public string FileName { get; set; }
         public DecryptionWindow()
         {
             InitializeComponent();
         }
+        public DecryptionWindow(FileVault v)
+        {
+            InitializeComponent();
+            vault = v;
+        }
 
         private void DecryptFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            FileStream theFile = new FileStream(FileName, FileMode.Open);
-            byte[] arr = new byte[theFile.Length];
-            int length = theFile.Read(arr, 0, (int)theFile.Length);
-            StringBuilder ciphertext = new StringBuilder();
-            foreach (byte b in arr)
-            {
-                ciphertext.Append(b);
-            }
-            File.Delete(FileName);
-            System.Security.SecureString password = passwordBox.SecurePassword;
-            System.Security.SecureString masterpassword = materPasswordBox.SecurePassword;
-            string plainFileName = "";
+
+
+            //FileStream theFile = new FileStream(FileName, FileMode.Open);
+            //byte[] arr = new byte[theFile.Length];
+            //int length = theFile.Read(arr, 0, (int)theFile.Length);
+            //StringBuilder ciphertext = new StringBuilder();
+            //foreach (byte b in arr)
+            //{
+            //    ciphertext.Append(b);
+            //}
+            //File.Delete(FileName);
+            //System.Security.SecureString password = passwordBox.SecurePassword;
+            //System.Security.SecureString masterpassword = materPasswordBox.SecurePassword;
+            //string plainFileName = "";
 
 
 
-            string plaintext = "";//= decrypted text of file
-                                  //send the password and masterpassword
-            plainFileName = plainFileName.Substring(0, plainFileName.Length); 
-            plainFileName += suffix.Text;
-            FileStream plainFile = new FileStream(plainFileName, FileMode.CreateNew);
-            byte[] plainBytes = Encoding.ASCII.GetBytes(plaintext);
-            plainFile.Write(plainBytes, 0, plainBytes.Length);
-            plainFile.Close();
-            theFile.Close();
+            //string plaintext = "";//= decrypted text of file
+            //                      //send the password and masterpassword
+            //plainFileName = plainFileName.Substring(0, plainFileName.Length); 
+            //plainFileName += suffix.Text;
+            //FileStream plainFile = new FileStream(plainFileName, FileMode.CreateNew);
+            //byte[] plainBytes = Encoding.ASCII.GetBytes(plaintext);
+            //plainFile.Write(plainBytes, 0, plainBytes.Length);
+            //plainFile.Close();
+            //theFile.Close();
+            
+            vault.DecryptFile(sourceFilePathTxt.Text, destFilePathTxt.Text, passwordBox.Text);
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -66,8 +77,17 @@ namespace MySafeGUI
 
             if (result == System.Windows.Forms.DialogResult.OK)
                 FileName = dialog.SelectedPath;
-            FilePathTxt.Text = FileName;
+            sourceFilePathTxt.Text = FileName;
+        }
 
+        private void destFilePath_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK)
+                FileName = dialog.SelectedPath;
+            destFilePathTxt.Text = FileName;
         }
     }
 }

@@ -17,9 +17,9 @@
         </Grid.RowDefinitions>
         <TextBlock Text="Choose the file you want to encrypt bellow:" Grid.Row="0"/>
         <Button x:Name="Browse" Content="Browse" Grid.Row="1" Click="Browse_Click" Width="50" HorizontalAlignment="Left"/>
-        <TextBlock x:Name="FilePathTxt" Grid.Row="1" HorizontalAlignment="Right"/>
+        <TextBlock x:Name="FilePathTxt" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="55,0,0,0"/>
         <TextBlock Text="Enter a password for this file:" Grid.Row="2"/>
-        <PasswordBox x:Name="passwordBox" Grid.Row="3"/>
+        <TextBox x:Name="passwordBox" Grid.Row="3"/>
         <Button x:Name="EncryptFileBtn" Content="Encrypt" Grid.Row="5" Click="EncryptFileBtn_Click" Width="100" HorizontalAlignment="Left" Margin="20,0,0,0"/>
         <Button x:Name="CancelBtn"  Content="Cancel" Grid.Row="5" Click="CancelBtn_Click" Width="100" HorizontalAlignment="Right" Margin="0,0,20,0"/>
     </Grid>

@@ -97,8 +97,8 @@ Global
 		{FF7E23B3-4031-4FF6-BBAF-3D1B1C060304}.Release|x64.Build.0 = Release|x64
 		{FF7E23B3-4031-4FF6-BBAF-3D1B1C060304}.Release|x86.ActiveCfg = Release|Win32
 		{FF7E23B3-4031-4FF6-BBAF-3D1B1C060304}.Release|x86.Build.0 = Release|Win32
-		{FF7E23B3-4031-4FF6-BBAF-3D1B1C060304}.Simulation|Any CPU.ActiveCfg = Simulation|x64
-		{FF7E23B3-4031-4FF6-BBAF-3D1B1C060304}.Simulation|Any CPU.Build.0 = Simulation|x64
+		{FF7E23B3-4031-4FF6-BBAF-3D1B1C060304}.Simulation|Any CPU.ActiveCfg = Simulation|Win32
+		{FF7E23B3-4031-4FF6-BBAF-3D1B1C060304}.Simulation|Any CPU.Build.0 = Simulation|Win32
 		{FF7E23B3-4031-4FF6-BBAF-3D1B1C060304}.Simulation|x64.ActiveCfg = Simulation|x64
 		{FF7E23B3-4031-4FF6-BBAF-3D1B1C060304}.Simulation|x64.Build.0 = Simulation|x64
 		{FF7E23B3-4031-4FF6-BBAF-3D1B1C060304}.Simulation|x86.ActiveCfg = Simulation|Win32
