@@ -64,7 +64,7 @@ int unseal(uint8_t *sealed_data, size_t sealed_size, uint8_t *plain_data, size_t
 		return -1;//error
 	else if (plain_data_size > buffer_size)
 	{
-		return -plain_data_size;
+		return -(uint32_t)(plain_data_size);
 	}
 	uint8_t* plain_data_space = new uint8_t[plain_data_size];
 	sgx_status_t res = sgx_unseal_data((sgx_sealed_data_t *)sealed_space, NULL, NULL, plain_data_space, &plain_data_size);
