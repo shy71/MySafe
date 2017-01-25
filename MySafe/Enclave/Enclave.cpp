@@ -202,7 +202,7 @@ sgx_status_t enclave_decrypt_file(char * path,char *newpath, char * file_passwor
 	memcpy(iv, data, 12);
 	memcpy(out_mac,data+12, 16);
 	memcpy(iv2, data+28, 12);
-	memcpy(out_mac2, data +28+ 12, 16);
+	memcpy(out_mac2, data + 28 + 12, 16);
 	sgx_status_t res = sgx_rijndael128GCM_encrypt((sgx_aes_gcm_128bit_key_t*)hash, main_key, 16, file_key, iv, 12, NULL, 0, &out_mac);
 	my_print((char *)file_key, 16);
 	my_print((char *)iv2, 12);
