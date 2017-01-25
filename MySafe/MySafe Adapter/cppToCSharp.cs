@@ -5,11 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using System.IO;
 
 namespace MySafe_Adapter
 {
     public class cppToCsharpAdapter
     {
+        static public string GG()
+        {
+           return Directory.GetCurrentDirectory();
+        }
         const string dllPath = "Bridge DLL.dll";
         [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr makeFileValutobj();
