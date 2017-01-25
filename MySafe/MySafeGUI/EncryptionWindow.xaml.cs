@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MySafe_Adapter;
+using Microsoft.Win32;
 
 namespace MySafeGUI
 {
@@ -22,64 +23,68 @@ namespace MySafeGUI
     public partial class EncryptionWindow : Window
     {
         FileVault vault;
-        public string FileName { get; set; }
-        public EncryptionWindow()
-        {
-            InitializeComponent();
-        }
+        string srcPath;
+        string destPath;
         public EncryptionWindow(FileVault v)
         {
             InitializeComponent();
             vault = v;
-        }
-        private void Browse_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-
-            if (result == System.Windows.Forms.DialogResult.OK)
-                FileName = dialog.SelectedPath;
-            FilePathTxt.Text = FileName;
-        }
-
-
-        private void EncryptFileBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //FileStream theFile = new FileStream(FileName, FileMode.Open);
-            //byte[] arr = new byte[theFile.Length];
-            //int length = theFile.Read(arr,0,(int)theFile.Length);
-            //StringBuilder plaintext = new StringBuilder();
-            //foreach (byte b in arr)
-            //{
-            //    plaintext.Append(b);
-            //}
-            //File.Delete(FileName);
-            //string password = passwordBox.Text;
-            //string cipherFileName = "";
-
-
-            vault.EncryptFile(FileName, passwordBox.Text);
+            OpenfilePath_Click(null, null);
             
-
-            //for (int i = FileName.Length - 1; i >= 0 ; i--)
-            //{
-            //    if(FileName[i] == '.')
-            //    {
-            //        cipherFileName = FileName.Substring(0, i);
-            //        break;
-            //    }
-            //}
-            //cipherFileName += ".ens";
-            //FileStream cipherFile = new FileStream(cipherFileName, FileMode.CreateNew);
-            //byte[] cipherBytes = Encoding.ASCII.GetBytes(ciphertext);
-            //cipherFile.Write(cipherBytes, 0, cipherBytes.Length);
-            //cipherFile.Close();
-            //theFile.Close();            
+        }
+        public EncryptionWindow()
+        {
+            InitializeComponent();
         }
 
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        private void OpenfilePath_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            var openFile = new OpenFileDialog();
+            openFile.DefaultExt = "vlt";
+            openFile.AddExtension = true;
+            openFile.Filter = "Vault Files(*.vlt) | *.vlt;";
+            openFile.ShowDialog();
+            srcPath = openFile.FileName;
+            if (srcPath.Length > 0)
+            {
+                openFilePath.ToolTip = srcPath;
+                openFilePath.Text = System.IO.Path.GetFileName(srcPath);
+                if (destPath.Length == 0)
+                {
+                    destPath = System.IO.Path.GetDirectoryName(srcPath) + System.IO.Path.GetFileNameWithoutExtension(srcPath) + ".ens";
+                    saveFilePath.ToolTip = destPath;
+                    saveFilePath.Text = System.IO.Path.GetFileName(destPath);
+                }
+            }
+            else
+            {
+                openFilePath.ToolTip = "Press to Choose vault file";
+                openFilePath.Text = "No file was choosen";
+            }
+        }
+        private void Encrypt_Click(object sender, RoutedEventArgs e)
+        {
+            vault.EncryptFile(srcPath, destPath, password.GetText());
+        }
+
+        private void SavefilePath_Click(object sender, RoutedEventArgs e)
+        {
+            var saveFile = new SaveFileDialog();
+            saveFile.DefaultExt = "vlt";
+            saveFile.AddExtension = true;
+            saveFile.Filter = "Encrypted Files(*.ens) | *.ens;";
+            saveFile.ShowDialog();
+            destPath = saveFile.FileName;
+            if (destPath.Length > 0)
+            {
+                saveFilePath.ToolTip = destPath;
+                saveFilePath.Text = System.IO.Path.GetFileName(destPath);
+            }
+            else
+            {
+                saveFilePath.ToolTip = "Press to Choose vault file";
+                saveFilePath.Text = "No file was choosen";
+            }
         }
     }
 }

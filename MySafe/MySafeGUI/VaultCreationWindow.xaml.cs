@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MySafe_Adapter;
+using Microsoft.Win32;
 
 namespace MySafeGUI
 {
@@ -42,7 +43,7 @@ namespace MySafeGUI
             //create vault
             try
             {
-                vault.CreateVault(FileDir, masterPassword.Text);
+                vault.CreateVault(FileDir, masterPassword.GetText());
             }
             catch(Exception err)
             {
@@ -51,16 +52,18 @@ namespace MySafeGUI
             }
 
             MessageBox.Show("The vault has been created successfully.", "Vault Created", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+            this.Close();
         }
 
         private void vaultDirectory_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-
-            if (result == System.Windows.Forms.DialogResult.OK)
-                FileDir = dialog.SelectedPath;
-            vaultDirectory.Text = FileDir;
+            var openFile = new SaveFileDialog();
+            openFile.DefaultExt = "vlt";
+            openFile.AddExtension = true;
+            openFile.Filter = "Vault Files(*.vlt) | *.vlt;";
+            openFile.ShowDialog();
+            FileDir = openFile.FileName;
+            vaultDirectory.SetText(FileDir);
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

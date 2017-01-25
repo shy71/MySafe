@@ -5,21 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MySafeGUI"
         mc:Ignorable="d"
-        Title="LoadVaultWindow" Height="300" Width="300">
+        Title="LoadVaultWindow" Height="150" Width="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Enter the vault's master password:" VerticalAlignment="Center"/>
-        <TextBox x:Name="masterPassword" Grid.Row="1" Height="20" VerticalAlignment="Top"/>
-        <TextBlock Text="Enter the vault's path:" Grid.Row="2"/>
-        <Button x:Name="vaultDirectoryBtn" Width="60" HorizontalAlignment="Left" Content="Browse" Grid.Row="3" Click="vaultDirectoryBtn_Click"/>
-        <TextBlock x:Name="vaultDirectory" Grid.Row="3" VerticalAlignment="Center" Margin="65,0,0,0"/>
-        <Button x:Name="Done" Grid.Row="6" VerticalAlignment="Bottom"  Click="Done_Click" Height="40" Width="100" Content="Done" FontSize="16" HorizontalAlignment="Right" Margin="0,0,20,0"/>
-        <Button x:Name="Cancel" Grid.Row="6" VerticalAlignment="Bottom"  Click="Cancel_Click" Height="40" Width="100" Content="Done" FontSize="16" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+
+        <TextBlock x:Name="filePath" VerticalAlignment="Center" FontSize="15"/>
+        <Button Opacity="0.2" Click="filePath_Click"/>
+        <local:TextControl x:Name="password" Str="Vault matster password" Grid.Row="1" FontS="15"/>
+
+        <Button x:Name="openBtn" Grid.Row="2" Content="Open Vault" Click="Open_Click"/>
     </Grid>
 </Window>

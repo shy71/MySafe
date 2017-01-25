@@ -105,4 +105,21 @@ extern "C"
 			throw ex;
 		}
 	}
+	__declspec(dllexport) int is_vault_open(FileValut* obj)
+	{
+		try
+		{
+			return obj->is_vault_open();
+		}
+		catch (exception ex)
+		{
+			obj->SetLastErrorMessage(ex.what());
+			throw ex;
+		}
+		catch (char* ex)
+		{
+			obj->SetLastErrorMessage(ex);
+			throw ex;
+		}
+	}
 }

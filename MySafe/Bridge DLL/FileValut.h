@@ -8,12 +8,14 @@ using namespace std;
 struct FileValut
 {
 	sgx_enclave_id_t eid;
+	bool valut_open=false;
 	void create_enclave();
 	string last_error_msg;
 	sgx_status_t res;
 public:
 	FileValut();
 	~FileValut();
+	bool is_vault_open();
 	void create_valut(char * path, char * master_password);
 	void close_enclave();
 	void load_valut(char * path, char * master_password);

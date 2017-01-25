@@ -37,29 +37,40 @@ void FileValut::create_enclave()
 }
 void FileValut::create_valut(char * path, char * master_password)
 {
+	if (valut_open)
+		throw "You can'thve two opened vault at the same time";
 	create_valut_file(eid, &res, path, master_password, strlen(master_password));
+	valut_open = true;
 	if (res)
 		throw "Create Valut - Enclave Exception - " + (char)res;
 }
 void FileValut::close_valut()
 {
 	enclave_close_valut(eid);
+	valut_open = false;
 }
 void FileValut::load_valut(char * path, char * master_password)
 {
+	if (valut_open)
+		throw "You can'thve two opened vault at the same time";
 	load_valut_from_file(eid, &res, path, master_password, strlen(master_password));
+	valut_open = true;
 	if (res)
 		throw "Load Valut - Enclave Exception - " + (char)res;
 }
 FileValut::FileValut() {}
 void FileValut::encrypt_file(char * path, char * file_password)
 {
+	if (!valut_open)
+		throw "You can't encrypt files before you load a vault!";
 	enclave_encrypt_file(eid, &res, path, file_password, strlen(file_password));
 	if (res)
 		throw "Encrypt File - Enclave Exception - " + (char)res;
 }
 void FileValut::decrypt_file(char * path, char* newpath, char * file_password)
 {
+	if (!valut_open)
+		throw "You can't decrypt files before you load a vault!";
 	enclave_decrypt_file(eid, &res, path, newpath, file_password, strlen(file_password));
 	if (res)
 		throw "Encrypt File - Enclave Exception - " + (char)res;
@@ -133,6 +144,8 @@ void encalve_file_size(char *path, size_t *size)
 	}
 	return;
 }
+bool FileValut::is_vault_open() { return valut_open; }
+
 void get_file_istream(char * path, uint8_t *pointer, uint32_t *size, uint32_t offset)
 {
 	*size = FileManger::getFileSize(path);

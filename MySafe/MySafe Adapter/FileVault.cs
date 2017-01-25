@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -10,7 +11,18 @@ namespace MySafe_Adapter
     public class FileVault
     {
         IntPtr myFileVaultPointer;
+        private string fileName;
 
+        public string FileName
+        {
+            get { return fileName; }
+        }
+        private string filePath;
+
+        public string FilePath
+        {
+            get { return filePath; }
+        }
         public FileVault()
         {
             myFileVaultPointer = cppToCsharpAdapter.makeFileValutobj();
@@ -25,6 +37,11 @@ namespace MySafe_Adapter
             try
             {
                 cppToCsharpAdapter.create_valut(this.myFileVaultPointer, path, masterPassword);
+                if(isVaultOpen())
+                {
+                    fileName = Path.GetFileName(path);
+                    filePath = path;
+                }
             }
             catch (SEHException)
             {
@@ -42,6 +59,11 @@ namespace MySafe_Adapter
             try
             {
                 cppToCsharpAdapter.load_valut(this.myFileVaultPointer, path, masterPassword);
+                if (isVaultOpen())
+                {
+                    fileName = Path.GetFileName(path);
+                    filePath = path;
+                }
             }
             catch (SEHException)
             {
@@ -54,7 +76,7 @@ namespace MySafe_Adapter
                 throw;
             }
         }
-        public void EncryptFile(string path, string filePassword)
+        public void EncryptFile(string path,string newPath, string filePassword)
         {
             try
             {
@@ -93,6 +115,28 @@ namespace MySafe_Adapter
             try
             {
                 cppToCsharpAdapter.close_valut();
+                if(isVaultOpen())
+                {
+                    fileName = "";
+                    filePath = "";
+                }
+            }
+            catch (SEHException)
+            {
+                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
+                string message = Marshal.PtrToStringAnsi(cString);
+                throw new Exception(message);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public bool isVaultOpen()
+        {
+            try
+            {
+               return cppToCsharpAdapter.is_vault_open(this.myFileVaultPointer)==1;
             }
             catch (SEHException)
             {

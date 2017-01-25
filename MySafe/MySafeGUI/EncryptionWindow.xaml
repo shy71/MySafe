@@ -5,22 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MySafeGUI"
         mc:Ignorable="d"
-        Title="Encryption Window" Height="150" Width="300">
-    <Grid x:Name="grid">
+        Title="Encryption Window" Height="200" Width="300">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1.5*"/>
-            <RowDefinition Height="1.5*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Choose the file you want to encrypt bellow:" Grid.Row="0"/>
-        <Button x:Name="Browse" Content="Browse" Grid.Row="1" Click="Browse_Click" Width="50" HorizontalAlignment="Left"/>
-        <TextBlock x:Name="FilePathTxt" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="55,0,0,0"/>
-        <TextBlock Text="Enter a password for this file:" Grid.Row="2"/>
-        <TextBox x:Name="passwordBox" Grid.Row="3"/>
-        <Button x:Name="EncryptFileBtn" Content="Encrypt" Grid.Row="5" Click="EncryptFileBtn_Click" Width="100" HorizontalAlignment="Left" Margin="20,0,0,0"/>
-        <Button x:Name="CancelBtn"  Content="Cancel" Grid.Row="5" Click="CancelBtn_Click" Width="100" HorizontalAlignment="Right" Margin="0,0,20,0"/>
+
+        <TextBlock x:Name="openFilePath" VerticalAlignment="Center" FontSize="15"/>
+        <Button Opacity="0.2" Click="OpenfilePath_Click"/>
+        <TextBlock x:Name="saveFilePath" VerticalAlignment="Center" FontSize="15" Grid.Row="1"/>
+        <Button Opacity="0.2" Click="SavefilePath_Click" Grid.Row="1"/>
+        <local:TextControl x:Name="password" Str="Vault matster password" Grid.Row="2" FontS="15"/>
+        <Button x:Name="encryptBtn" Grid.Row="3" Content="Encrypt Vault" Click="Encrypt_Click"/>
     </Grid>
 </Window>

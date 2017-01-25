@@ -57,8 +57,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EventValue.cs" />
     <Compile Include="LoadVaultWindow.xaml.cs">
       <DependentUpon>LoadVaultWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TextControl.xaml.cs">
+      <DependentUpon>TextControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="VaultCreationWindow.xaml.cs">
       <DependentUpon>VaultCreationWindow.xaml</DependentUpon>
@@ -93,6 +97,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TextControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="VaultCreationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

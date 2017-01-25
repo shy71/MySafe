@@ -32,12 +32,11 @@ namespace MySafeGUI
         }
         private void EncryptBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (vault == null)
-            {
-                MessageBox.Show("There is no open vault at the moment to decrypt with", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-            }
+
             try
             {
+                if (vault.isVaultOpen())
+                    throw new Exception("There is no open vault at the moment to encrypt with");
                 //open pop-up window for choosing file and encrypting it
                 new EncryptionWindow(vault).ShowDialog();
             }
@@ -49,15 +48,13 @@ namespace MySafeGUI
 
         private void DecryptBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(vault == null)
-            {
-                MessageBox.Show("There is no open vault at the moment to decrypt with", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-            }
             try
             {
+                if (vault.isVaultOpen())
+                    throw new Exception("There is no open vault at the moment to decrypt with");
                 new DecryptionWindow(vault).ShowDialog();
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
@@ -72,7 +69,7 @@ namespace MySafeGUI
                             "Description", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void CreateVault_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -85,11 +82,15 @@ namespace MySafeGUI
             }
             finally
             {
-                openVault.Text = (vault == null) ? "There isn't any open vault currently." : "There is a an open vault now.";
+                if (vault.isVaultOpen())
+                {
+                    openVault.Text = vault.FileName;
+                    openVault.ToolTip = vault.FilePath;
+                }
             }
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void LoadVault_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -102,7 +103,11 @@ namespace MySafeGUI
             }
             finally
             {
-                openVault.Text = (vault == null) ? "There isn't any open vault currently." : "There is a an open vault now.";
+                if (vault.isVaultOpen())
+                {
+                    openVault.Text = vault.FileName;
+                    openVault.ToolTip = vault.FilePath;
+                }
             }
         }
     }

@@ -10,8 +10,10 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.IO;
 using System.Windows.Shapes;
 using MySafe_Adapter;
+using Microsoft.Win32;
 
 namespace MySafeGUI
 {
@@ -21,35 +23,45 @@ namespace MySafeGUI
     public partial class LoadVaultWindow : Window
     {
         FileVault vault;
+        string path;
         public LoadVaultWindow(FileVault v)
         {
             InitializeComponent();
             vault = v;
+            filePath_Click(null, null);
+
         }
         public LoadVaultWindow()
         {
             InitializeComponent();
         }
 
-        private void vaultDirectoryBtn_Click(object sender, RoutedEventArgs e)
+        private void filePath_Click(object sender, RoutedEventArgs e)
         {
-            string FileName = "";
-            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            var openFile = new OpenFileDialog();
+            openFile.DefaultExt = "vlt";
+            openFile.AddExtension = true;
+            openFile.Filter = "Vault Files(*.vlt) | *.vlt;";
+            openFile.ShowDialog();
+            path = openFile.FileName;
+            if (path.Length > 0)
+            {
+                filePath.ToolTip = path;
+                filePath.Text = System.IO.Path.GetFileName(path);
+                openBtn.IsEnabled = true;
+            }
+            else
+            {
+                filePath.ToolTip = "Press to Choose vault file";
+                filePath.Text = "No file was choosen";
+                openBtn.IsEnabled = false;
 
-            if (result == System.Windows.Forms.DialogResult.OK)
-                FileName = dialog.SelectedPath;
-            vaultDirectory.Text = FileName;
+            }
         }
 
-        private void Done_Click(object sender, RoutedEventArgs e)
+        private void Open_Click(object sender, RoutedEventArgs e)
         {
-            vault.LoadVault(vaultDirectory.Text, masterPassword.Text);
-        }
-
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            vault.LoadVault(path, password.GetText());
         }
     }
 }

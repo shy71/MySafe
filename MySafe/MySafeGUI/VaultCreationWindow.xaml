@@ -5,21 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MySafeGUI"
         mc:Ignorable="d"
-        Title="VaultCreationWindow" Height="300" Width="300">
+        Title="VaultCreationWindow" Height="200" Width="300" MinWidth="240">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="40*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Enter what you want the master password for the vault to be:" VerticalAlignment="Center"/>
-        <TextBox x:Name="masterPassword" Grid.Row="1" Height="20" VerticalAlignment="Top"/>
-        <TextBlock Text="Enter where you want to save the new vault:" Grid.Row="2"/>
-        <Button x:Name="vaultDirectoryBtn" Width="60" HorizontalAlignment="Left" Content="Browse" Grid.Row="3" Click="vaultDirectory_Click"/>
-        <TextBlock x:Name="vaultDirectory" Grid.Row="3" VerticalAlignment="Center" Margin="65,0,0,0"/>
-        <Button x:Name="Done" Grid.Row="6" VerticalAlignment="Bottom"  Click="Done_Click" Height="40" Width="100" Content="Done" FontSize="16" HorizontalAlignment="Right" Margin="0,0,20,0"/>
-        <Button x:Name="Cancel" Grid.Row="6" VerticalAlignment="Bottom"  Click="Cancel_Click" Height="40" Width="100" Content="Done" FontSize="16" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+        <local:TextControl x:Name="masterPassword" Str="Master password for vault" Grid.Row="0" Height="30" Grid.ColumnSpan="2" Margin="0,2" />
+        <local:TextControl x:Name="vaultDirectory" Str="Location for the Vault file" Grid.Row="2"  Height="30" Margin="0,2"  />
+        <Button x:Name="vaultDirectoryBtn" Width="60" HorizontalAlignment="Right" Content="Browse" Grid.Row="2" Click="vaultDirectory_Click"  Grid.Column="1" Margin="5,5,5,5"/>
+        <Button x:Name="Done" Grid.Row="5" VerticalAlignment="Bottom"  Click="Done_Click" Height="20" Width="100" Content="Done" FontSize="13" HorizontalAlignment="Right" Margin="0,0,20,10" Grid.ColumnSpan="2"/>
+        <Button x:Name="Cancel" Grid.Row="5" VerticalAlignment="Bottom"  Click="Cancel_Click" Height="20" Width="100" Content="Cancel" FontSize="13" HorizontalAlignment="Left" Margin="20,0,00,10"/>
     </Grid>
 </Window>
