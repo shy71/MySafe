@@ -27,9 +27,9 @@ extern "C"
 		{
 			obj->create_valut(path, master_password);
 		}
-		catch (exception ex)
+		catch (exception* ex)
 		{
-			obj->SetLastErrorMessage(ex.what());
+			obj->SetLastErrorMessage(ex->what());
 			throw ex;
 		}
 		catch (char* ex)
@@ -44,9 +44,9 @@ extern "C"
 		{
 			obj->close_valut();
 		}
-		catch (exception ex)
+		catch (exception* ex)
 		{
-			obj->SetLastErrorMessage(ex.what());
+			obj->SetLastErrorMessage(ex->what());
 			throw ex;
 		}
 		catch (char* ex)
@@ -61,9 +61,9 @@ extern "C"
 		{
 			obj->load_valut(path, master_password);
 		}
-		catch (exception ex)
+		catch (exception* ex)
 		{
-			obj->SetLastErrorMessage(ex.what());
+			obj->SetLastErrorMessage(ex->what());
 			throw ex;
 		}
 		catch (char* ex)
@@ -72,15 +72,15 @@ extern "C"
 			throw ex;
 		}
 	}
-	__declspec(dllexport) void encrypt_file(FileValut* obj, char * path, char * file_password)
+	__declspec(dllexport) void encrypt_file(FileValut* obj, char * path,char * new_path, char * file_password)
 	{
 		try
 		{
-			obj->encrypt_file(path, file_password);
+			obj->encrypt_file(path,new_path, file_password);
 		}
-		catch (exception ex)
+		catch (exception* ex)
 		{
-			obj->SetLastErrorMessage(ex.what());
+			obj->SetLastErrorMessage(ex->what());
 			throw ex;
 		}
 		catch (char* ex)
@@ -89,15 +89,15 @@ extern "C"
 			throw ex;
 		}
 	}
-	__declspec(dllexport) void decrypt_file(FileValut* obj, char * path,char* newpath, char * file_password)
+	__declspec(dllexport) void decrypt_file(FileValut* obj, char * path,char* new_path, char * file_password)
 	{
 		try
 		{
-			obj->decrypt_file(path, newpath,file_password);
+			obj->decrypt_file(path, new_path,file_password);
 		}
-		catch (exception ex)
+		catch (exception* ex)
 		{
-			obj->SetLastErrorMessage(ex.what());
+			obj->SetLastErrorMessage(ex->what());
 			throw ex;
 		}
 		catch (char* ex)
@@ -112,9 +112,9 @@ extern "C"
 		{
 			return obj->is_vault_open();
 		}
-		catch (exception ex)
+		catch (exception* ex)
 		{
-			obj->SetLastErrorMessage(ex.what());
+			obj->SetLastErrorMessage(ex->what());
 			throw ex;
 		}
 		catch (char* ex)

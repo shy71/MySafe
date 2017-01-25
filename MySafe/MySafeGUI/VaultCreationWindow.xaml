@@ -7,21 +7,16 @@
         mc:Ignorable="d"
         Title="VaultCreationWindow" Height="200" Width="300" MinWidth="240">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30*"/>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="30*"/>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="40*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <local:TextControl x:Name="masterPassword" Str="Master password for vault" Grid.Row="0" Height="30" Grid.ColumnSpan="2" Margin="0,2" />
-        <local:TextControl x:Name="vaultDirectory" Str="Location for the Vault file" Grid.Row="2"  Height="30" Margin="0,2"  />
-        <Button x:Name="vaultDirectoryBtn" Width="60" HorizontalAlignment="Right" Content="Browse" Grid.Row="2" Click="vaultDirectory_Click"  Grid.Column="1" Margin="5,5,5,5"/>
-        <Button x:Name="Done" Grid.Row="5" VerticalAlignment="Bottom"  Click="Done_Click" Height="20" Width="100" Content="Done" FontSize="13" HorizontalAlignment="Right" Margin="0,0,20,10" Grid.ColumnSpan="2"/>
-        <Button x:Name="Cancel" Grid.Row="5" VerticalAlignment="Bottom"  Click="Cancel_Click" Height="20" Width="100" Content="Cancel" FontSize="13" HorizontalAlignment="Left" Margin="20,0,00,10"/>
+
+        <TextBlock x:Name="filePath" VerticalAlignment="Center" FontSize="15"/>
+        <Button Opacity="0.2" Click="filePath_Click" ToolTip="{Binding ElementName=filePath, Path=ToolTip}"/>
+        <local:TextControl x:Name="masterPassword" Str="Vault matster password" Grid.Row="1" FontS="15"/>
+
+        <Button x:Name="createBtn" Grid.Row="2" Content="Create Vault" Click="Create_Click"/>
     </Grid>
 </Window>

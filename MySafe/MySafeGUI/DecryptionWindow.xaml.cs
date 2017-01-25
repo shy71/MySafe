@@ -40,7 +40,7 @@ namespace MySafeGUI
         private void OpenfilePath_Click(object sender, RoutedEventArgs e)
         {
             var openFile = new OpenFileDialog();
-            openFile.Filter = "Encrypted Files(*.ens) | *.ens;";
+            openFile.Filter = "Encrypted Files(*.ens) | *.ens|All Files(*.*) | *.*";
             openFile.ShowDialog();
             srcPath = openFile.FileName;
             if (srcPath.Length > 0)
@@ -57,8 +57,13 @@ namespace MySafeGUI
             else
             {
                 srcPath = "";
-                openFilePath.ToolTip = "Press to Choose vault file";
-                openFilePath.Text = "No file was choosen";
+                openFilePath.ToolTip = "Press to Choose encrypted file";
+                openFilePath.Text = "Encrypted File: No file was chosen";
+                if (destPath.Length == 0)
+                {
+                    saveFilePath.ToolTip = "Press to Choose destnation path";
+                    saveFilePath.Text = "Destnation path: No file was chosen";
+                }
             }
         }
         private void Decrypt_Click(object sender, RoutedEventArgs e)
@@ -68,7 +73,7 @@ namespace MySafeGUI
                 if (destPath == "")
                     throw new Exception("The Destnation path is empty");
                 if (srcPath == "")
-                    throw new Exception("The Source path is empty");
+                    throw new Exception("No Encrypted File was chosen");
                 if (password.GetText() == null)
                     throw new Exception("The password field is empty");
                 vault.DecryptFile(srcPath, destPath, password.GetText());
@@ -95,8 +100,8 @@ namespace MySafeGUI
             else
             {
                 destPath = "";
-                saveFilePath.ToolTip = "Press to Choose vault file";
-                saveFilePath.Text = "No file was choosen";
+                saveFilePath.ToolTip = "Press to Choose path";
+                saveFilePath.Text = "Decrypted Path: No path was chosen";
             }
         }
     }

@@ -26,7 +26,7 @@ namespace MySafeGUI
         public MainWindow()
         {
             InitializeComponent();
-            Directory.SetCurrentDirectory("../../../Simulation");
+            Directory.SetCurrentDirectory("../../../Debug");
             vault = new FileVault();
 
         }
@@ -80,7 +80,6 @@ namespace MySafeGUI
             catch(Exception error)
             {
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-                vault = null;
             }
             finally
             {
@@ -103,7 +102,6 @@ namespace MySafeGUI
             catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-                vault = null;
             }
             finally
             {
@@ -127,7 +125,6 @@ namespace MySafeGUI
             catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-                vault = null;
             }
             finally
             {
