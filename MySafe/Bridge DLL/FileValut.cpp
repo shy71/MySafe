@@ -217,7 +217,7 @@ int main()
 			FileValut file;
 			file.create_enclave();
 			file.load_valut("try2", "shy71");
-			file.decrypt_file("TEXT.txt.ens", "text.txt", "123456");
+			file.decrypt_file("TEXT.txt.ens", "text-2.txt", "123456");
 			system("pause");
 		}
 		else if (num == 4)

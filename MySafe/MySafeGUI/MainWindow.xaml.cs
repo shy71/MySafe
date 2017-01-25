@@ -25,9 +25,10 @@ namespace MySafeGUI
         FileVault vault = null;
         public MainWindow()
         {
-            vault = new FileVault();
             InitializeComponent();
             Directory.SetCurrentDirectory("../../../Simulation");
+            vault = new FileVault();
+
         }
         private void EncryptBtn_Click(object sender, RoutedEventArgs e)
         {

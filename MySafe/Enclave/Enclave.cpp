@@ -141,6 +141,10 @@ sgx_status_t load_valut_from_file(char * path, char* password, size_t len)
 }
 sgx_status_t enclave_encrypt_file(char * path, char * file_password, size_t len)
 {
+	sgx_sha256_hash_t file_hash;
+	uint8_t encrypt_hash[32];
+	sgx_sha_state_handle_t hash_handle;
+	sgx_sha256_init(&hash_handle);
 	char new_path[105];
 	memcpy(new_path, path, 100);
 	memcpy(new_path + strlen(new_path), ".ens", 5);
@@ -158,6 +162,10 @@ sgx_status_t enclave_encrypt_file(char * path, char * file_password, size_t len)
 	encalve_write_end_of_open_file(&result, new_path, NULL, 0, 0);
 	encalve_write_end_of_open_file(&result, new_path, (char *)iv, 12,1);
 	encalve_write_end_of_open_file(&result, new_path, (char *)out_mac, 16,1);
+	encalve_write_end_of_open_file(&result, new_path, (char *)iv2, 12, 1);
+	encalve_write_end_of_open_file(&result, new_path, (char *)out_mac2, 16, 1);
+	encalve_write_end_of_open_file(&result, new_path, (char *)file_hash, 32, 1);
+
 	size_t size_input;
 	bool finsihed = false;
 	uint8_t input[SIZE_AES_BLOCK_BYTE];
@@ -170,6 +178,8 @@ sgx_status_t enclave_encrypt_file(char * path, char * file_password, size_t len)
 	{
 
 		encalve_read_part_open_file(&result, path, (char *)input, SIZE_AES_BLOCK_BYTE, &size_input,1);
+		sgx_sha256_update((uint8_t*)input, size_input, hash_handle);
+
 		if (size_input != 0)
 		{
 			if (size_input < SIZE_AES_BLOCK_BYTE)
@@ -183,6 +193,12 @@ sgx_status_t enclave_encrypt_file(char * path, char * file_password, size_t len)
 
 	} while (!finsihed);
 	encalve_read_part_open_file(&result, path, NULL, 0, &size_input, 2);
+	sgx_sha256_get_hash(hash_handle, (sgx_sha256_hash_t*)file_hash);
+	sgx_rijndael128GCM_encrypt((sgx_aes_gcm_128bit_key_t*)main_key, file_hash, 32, encrypt_hash, iv2, 12, NULL, 0, &out_mac2);
+	encalve_write_end_of_open_file(&result, new_path, NULL, 40, 3);
+	encalve_write_end_of_open_file(&result, new_path, (char *)out_mac2, 16, 1);
+
+	encalve_write_end_of_open_file(&result, new_path, (char *)encrypt_hash, 32, 1);
 	encalve_write_end_of_open_file(&result, new_path, NULL, 0, 2);
 
 	//uint8_t *input = new uint8_t[size_input];
@@ -212,6 +228,11 @@ sgx_status_t enclave_encrypt_file(char * path, char * file_password, size_t len)
 }
 sgx_status_t enclave_decrypt_file(char * path, char *new_path, char * file_password, size_t len)
 {
+
+	sgx_sha256_hash_t file_hash;
+	sgx_sha_state_handle_t hash_handle;
+	sgx_sha256_init(&hash_handle);
+
 	size_t size_input;
 
 	uint8_t result;
@@ -222,12 +243,19 @@ sgx_status_t enclave_decrypt_file(char * path, char *new_path, char * file_passw
 	}
 	sgx_sha256_hash_t hash;
 	get_sha256_hash(file_password, len, &hash);
-	uint8_t iv[12];
-	uint8_t file_key[16];
-	sgx_aes_gcm_128bit_tag_t out_mac;
+	uint8_t iv[12],iv2[12];
+	uint8_t file_key[16],encrypted_hash[32],decrypted_hash[32];
+	sgx_aes_gcm_128bit_tag_t out_mac,out_mac2;
 	encalve_read_part_open_file(&result, path, NULL, 0, &size_input,0);
 	encalve_read_part_open_file(&result, path, (char*)iv, 12,&size_input,1);
 	encalve_read_part_open_file(&result, path, (char*)out_mac, 16, &size_input,1);
+	encalve_read_part_open_file(&result, path, (char*)iv2, 12, &size_input, 1);
+	encalve_read_part_open_file(&result, path, (char*)out_mac2, 16, &size_input, 1);
+	encalve_read_part_open_file(&result, path, (char*)encrypted_hash, 32, &size_input, 1);
+
+
+	sgx_status_t res2=sgx_rijndael128GCM_decrypt((sgx_aes_gcm_128bit_key_t*)main_key, encrypted_hash, 32, decrypted_hash, iv2, 12, NULL, 0, &out_mac2);
+	
 	sgx_status_t res = sgx_rijndael128GCM_encrypt((sgx_aes_gcm_128bit_key_t*)hash, main_key, 16, file_key, iv, 12, NULL, 0, &out_mac);
 
 	if (res)
@@ -249,13 +277,21 @@ sgx_status_t enclave_decrypt_file(char * path, char *new_path, char * file_passw
 				finsihed = true;
 			sgx_aes_ctr_decrypt((sgx_aes_gcm_128bit_key_t*)file_key, input, size_input, nounce_counter, 16, plain_text);
 			encalve_write_end_of_open_file(&result, new_path, (char *)plain_text, size_input,1);
+			sgx_sha256_update((uint8_t*)plain_text, size_input, hash_handle);
+
 		}
 		else
 			finsihed = true;
 
 	} while (!finsihed);
 	encalve_read_part_open_file(&result, path, NULL,0, &size_input, 2);
+	sgx_sha256_get_hash(hash_handle, (sgx_sha256_hash_t*)file_hash);
+
+	if (memcmp(file_hash, decrypted_hash,32))
+		return SGX_ERROR_IPLDR_MAC_MISMATCH;
+
 	encalve_write_end_of_open_file(&result, new_path, NULL, 0, 2);
+
 
 	//size_t size_input;
 	//encalve_file_size(path, &size_input);

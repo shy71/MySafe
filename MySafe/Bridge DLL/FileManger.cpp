@@ -23,12 +23,17 @@ void FileManger::encalve_write_end_of_open_file(char * path, char* buffer, size_
 	static 	std::ofstream file;
 	if (call_type ==0)
 	{
+		if(file.is_open())
+			throw "You can't open when a file is already opened";
+
 		file.open(path, ios_base::binary);
 		if (!file.is_open())
 			throw "File wasn't open";
 	}
 	else if (call_type == 2)
 	{
+		if (!file.is_open())
+			throw "File wasn't open";
 		file.close();
 	}
 	else if (call_type == 1)
@@ -36,6 +41,12 @@ void FileManger::encalve_write_end_of_open_file(char * path, char* buffer, size_
 		if (!file.is_open())
 			throw "File wasn't open";
 		file.write(buffer, size);
+	}
+	else if (call_type == 3)
+	{
+		if (!file.is_open())
+			throw "File wasn't open";
+		file.seekp(size, ios::beg);
 	}
 }
 int FileManger::getFileSize(const char * path)
