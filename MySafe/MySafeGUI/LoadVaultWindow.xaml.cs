@@ -61,7 +61,16 @@ namespace MySafeGUI
 
         private void Open_Click(object sender, RoutedEventArgs e)
         {
-            vault.LoadVault(path, password.GetText());
+            try
+            {
+                vault.LoadVault(path, password.GetText());
+                MessageBox.Show("The Vault has been opened successfully.\n" + path, "Vault Opened", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                this.Close();
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
         }
     }
 }

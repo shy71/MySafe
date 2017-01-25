@@ -36,7 +36,9 @@ namespace MySafe_Adapter
         {
             try
             {
-                cppToCsharpAdapter.create_valut(this.myFileVaultPointer, path, masterPassword);
+                if (isVaultOpen())
+                    throw new Exception("There is an already open vault, close it before opening a new one");
+                    cppToCsharpAdapter.create_valut(this.myFileVaultPointer, path, masterPassword);
                 if(isVaultOpen())
                 {
                     fileName = Path.GetFileName(path);
@@ -58,6 +60,9 @@ namespace MySafe_Adapter
         {
             try
             {
+
+                if (isVaultOpen())
+                    throw new Exception("There is an already open vault, close it before opening a new one");
                 cppToCsharpAdapter.load_valut(this.myFileVaultPointer, path, masterPassword);
                 if (isVaultOpen())
                 {
@@ -110,7 +115,7 @@ namespace MySafe_Adapter
                 throw;
             }
         }
-        private void CloseVault()
+        public void CloseVault()
         {
             try
             {
@@ -136,7 +141,7 @@ namespace MySafe_Adapter
         {
             try
             {
-               return cppToCsharpAdapter.is_vault_open(this.myFileVaultPointer)==1;
+               return (cppToCsharpAdapter.is_vault_open(this.myFileVaultPointer)==1);
             }
             catch (SEHException)
             {

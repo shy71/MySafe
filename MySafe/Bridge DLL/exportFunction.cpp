@@ -17,7 +17,8 @@ extern "C"
 	}
 	__declspec(dllexport) const char* GetLastFileValutErrorMessage(FileValut* obj)
 	{
-		const char* str = obj->GetLastErrorMessage().c_str();
+		char* str=new char[200];
+		strcpy_s(str,200,obj->GetLastErrorMessage().c_str());
 		return str;
 	}
 	__declspec(dllexport) void create_valut(FileValut* obj, char * path, char* master_password)

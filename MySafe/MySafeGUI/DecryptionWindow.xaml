@@ -12,20 +12,13 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Choose the file you want to decrypt bellow:" Grid.Row="0"/>
-        <Button x:Name="sourcePath" Content="Browse" Grid.Row="1" Click="Browse_Click" Width="60" HorizontalAlignment="Left"/>
-        <TextBlock x:Name="sourceFilePathTxt" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="65,0,0,0"/>
-        <TextBlock Text="Choose the path for the decrypted file:" Grid.Row="2"/>
-        <TextBlock x:Name="destFilePathTxt" Grid.Row="3" Margin="65,0,0,0"/>
-        <Button x:Name="destFilePath" Click="destFilePath_Click" Grid.Row="3" Width="60" HorizontalAlignment="Left" Content="Browse"/>
-        <TextBlock Text="Enter a password for this file:" Grid.Row="4"/>
-        <TextBox x:Name="passwordBox" Grid.Row="5"/>
-        <Button x:Name="DecryptFileBtn" Content="Decrypt" Grid.Row="8" Click="DecryptFileBtn_Click" Width="100" HorizontalAlignment="Left" Margin="20,0,0,0"/>
-        <Button x:Name="CancelBtn"  Content="Cancel" Grid.Row="8" Click="CancelBtn_Click" Width="100" HorizontalAlignment="Right" Margin="0,0,20,0"/>
+
+        <TextBlock x:Name="openFilePath" VerticalAlignment="Center" FontSize="15"/>
+        <Button Opacity="0.2" Click="OpenfilePath_Click" ToolTip="{Binding ElementName=openFilePath, Path=ToolTip}"/>
+        <TextBlock x:Name="saveFilePath" VerticalAlignment="Center" FontSize="15" Grid.Row="1"/>
+        <Button Opacity="0.2" Click="SavefilePath_Click" Grid.Row="1" ToolTip="{Binding ElementName=saveFilePath, Path=ToolTip}"/>
+        <local:TextControl x:Name="password" Str="File password" Grid.Row="2" FontS="15"/>
+        <Button x:Name="decryptBtn" Grid.Row="3" Content="Decrypt Vault" Click="Decrypt_Click"/>
     </Grid>
 </Window>

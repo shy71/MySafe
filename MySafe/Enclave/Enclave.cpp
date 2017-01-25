@@ -236,11 +236,6 @@ sgx_status_t enclave_decrypt_file(char * path, char *new_path, char * file_passw
 	size_t size_input;
 
 	uint8_t result;
-	uint8_t data[56];
-	if (result)
-	{
-		return SGX_ERROR_FILE_BAD_STATUS;
-	}
 	sgx_sha256_hash_t hash;
 	get_sha256_hash(file_password, len, &hash);
 	uint8_t iv[12],iv2[12];
@@ -288,7 +283,7 @@ sgx_status_t enclave_decrypt_file(char * path, char *new_path, char * file_passw
 	sgx_sha256_get_hash(hash_handle, (sgx_sha256_hash_t*)file_hash);
 
 	if (memcmp(file_hash, decrypted_hash,32))
-		return SGX_ERROR_IPLDR_MAC_MISMATCH;
+		return SGX_ERROR_MAC_MISMATCH;
 
 	encalve_write_end_of_open_file(&result, new_path, NULL, 0, 2);
 

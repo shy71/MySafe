@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MySafe_Adapter;
+using Microsoft.Win32;
 
 namespace MySafeGUI
 {
@@ -22,72 +23,81 @@ namespace MySafeGUI
     public partial class DecryptionWindow : Window
     {
         FileVault vault;
-        public string FileName { get; set; }
-        public DecryptionWindow()
-        {
-            InitializeComponent();
-        }
+        string srcPath = "";
+        string destPath = "";
         public DecryptionWindow(FileVault v)
         {
             InitializeComponent();
             vault = v;
+            OpenfilePath_Click(null, null);
+
+        }
+        public DecryptionWindow()
+        {
+            InitializeComponent();
         }
 
-        private void DecryptFileBtn_Click(object sender, RoutedEventArgs e)
+        private void OpenfilePath_Click(object sender, RoutedEventArgs e)
         {
-
-
-            //FileStream theFile = new FileStream(FileName, FileMode.Open);
-            //byte[] arr = new byte[theFile.Length];
-            //int length = theFile.Read(arr, 0, (int)theFile.Length);
-            //StringBuilder ciphertext = new StringBuilder();
-            //foreach (byte b in arr)
-            //{
-            //    ciphertext.Append(b);
-            //}
-            //File.Delete(FileName);
-            //System.Security.SecureString password = passwordBox.SecurePassword;
-            //System.Security.SecureString masterpassword = materPasswordBox.SecurePassword;
-            //string plainFileName = "";
-
-
-
-            //string plaintext = "";//= decrypted text of file
-            //                      //send the password and masterpassword
-            //plainFileName = plainFileName.Substring(0, plainFileName.Length); 
-            //plainFileName += suffix.Text;
-            //FileStream plainFile = new FileStream(plainFileName, FileMode.CreateNew);
-            //byte[] plainBytes = Encoding.ASCII.GetBytes(plaintext);
-            //plainFile.Write(plainBytes, 0, plainBytes.Length);
-            //plainFile.Close();
-            //theFile.Close();
-            
-            vault.DecryptFile(sourceFilePathTxt.Text, destFilePathTxt.Text, passwordBox.Text);
+            var openFile = new OpenFileDialog();
+            openFile.Filter = "Encrypted Files(*.ens) | *.ens;";
+            openFile.ShowDialog();
+            srcPath = openFile.FileName;
+            if (srcPath.Length > 0)
+            {
+                openFilePath.ToolTip = srcPath;
+                openFilePath.Text = System.IO.Path.GetFileName(srcPath);
+                if (destPath.Length == 0)
+                {
+                    destPath = System.IO.Path.GetDirectoryName(srcPath) + "\\" + System.IO.Path.GetFileNameWithoutExtension(srcPath);
+                    saveFilePath.ToolTip = destPath;
+                    saveFilePath.Text = System.IO.Path.GetFileName(destPath);
+                }
+            }
+            else
+            {
+                srcPath = "";
+                openFilePath.ToolTip = "Press to Choose vault file";
+                openFilePath.Text = "No file was choosen";
+            }
+        }
+        private void Decrypt_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (destPath == "")
+                    throw new Exception("The Destnation path is empty");
+                if (srcPath == "")
+                    throw new Exception("The Source path is empty");
+                if (password.GetText() == null)
+                    throw new Exception("The password field is empty");
+                vault.DecryptFile(srcPath, destPath, password.GetText());
+                MessageBox.Show("The File has been decrypted successfully.\n" + destPath, "File Decrypted", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
         }
 
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        private void SavefilePath_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
-        }
-
-        private void Browse_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-
-            if (result == System.Windows.Forms.DialogResult.OK)
-                FileName = dialog.SelectedPath;
-            sourceFilePathTxt.Text = FileName;
-        }
-
-        private void destFilePath_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-
-            if (result == System.Windows.Forms.DialogResult.OK)
-                FileName = dialog.SelectedPath;
-            destFilePathTxt.Text = FileName;
+            var saveFile = new SaveFileDialog();
+            saveFile.Filter= "All Files(*.*) | *.*";
+            saveFile.ShowDialog();
+            destPath = saveFile.FileName;
+            if (destPath.Length > 0)
+            {
+                saveFilePath.ToolTip = destPath;
+                saveFilePath.Text = System.IO.Path.GetFileName(destPath);
+            }
+            else
+            {
+                destPath = "";
+                saveFilePath.ToolTip = "Press to Choose vault file";
+                saveFilePath.Text = "No file was choosen";
+            }
         }
     }
 }

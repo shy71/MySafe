@@ -35,7 +35,7 @@ namespace MySafeGUI
 
             try
             {
-                if (vault.isVaultOpen())
+                if (!vault.isVaultOpen())
                     throw new Exception("There is no open vault at the moment to encrypt with");
                 //open pop-up window for choosing file and encrypting it
                 new EncryptionWindow(vault).ShowDialog();
@@ -50,7 +50,7 @@ namespace MySafeGUI
         {
             try
             {
-                if (vault.isVaultOpen())
+                if (!vault.isVaultOpen())
                     throw new Exception("There is no open vault at the moment to decrypt with");
                 new DecryptionWindow(vault).ShowDialog();
             }
@@ -73,6 +73,8 @@ namespace MySafeGUI
         {
             try
             {
+                if (vault.isVaultOpen())
+                    throw new Exception("There is already an open vault! please close it before opening a new one!");
                 new VaultCreationWindow(vault).ShowDialog();
             }
             catch(Exception error)
@@ -94,7 +96,33 @@ namespace MySafeGUI
         {
             try
             {
+                if (vault.isVaultOpen())
+                    throw new Exception("There is already an open vault! please close it before opening a new one!");
                 new LoadVaultWindow(vault).ShowDialog();
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                vault = null;
+            }
+            finally
+            {
+                if (vault.isVaultOpen())
+                {
+                    openVault.Text = vault.FileName;
+                    openVault.ToolTip = vault.FilePath;
+                }
+            }
+        }
+
+        private void CloseVault_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!vault.isVaultOpen())
+                    throw new Exception("There isn't any open vault to close!");
+                vault.CloseVault();
+                MessageBox.Show("The Vault has been closed successfully.\n" + vault.FilePath, "Vault Closed", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
             }
             catch (Exception error)
             {

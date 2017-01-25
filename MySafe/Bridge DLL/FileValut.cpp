@@ -73,7 +73,11 @@ void FileValut::decrypt_file(char * path, char* newpath, char * file_password)
 		throw "You can't decrypt files before you load a vault!";
 	enclave_decrypt_file(eid, &res, path, newpath, file_password, strlen(file_password));
 	if (res)
-		throw "Encrypt File - Enclave Exception - " + (char)res;
+	{
+		char * error = new char[50] {"Encrypt File - Enclave Exception - xxxxxx"};
+		_itoa_s(res, error + 35,10, 10);
+		throw error;
+	}
 }
 void FileValut::changer_user_password(char * path, char * old_password, char * new_password) {}
 void FileValut::SetLastErrorMessage(const char * error)

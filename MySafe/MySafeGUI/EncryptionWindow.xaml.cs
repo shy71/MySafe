@@ -23,8 +23,8 @@ namespace MySafeGUI
     public partial class EncryptionWindow : Window
     {
         FileVault vault;
-        string srcPath;
-        string destPath;
+        string srcPath="";
+        string destPath="";
         public EncryptionWindow(FileVault v)
         {
             InitializeComponent();
@@ -40,9 +40,7 @@ namespace MySafeGUI
         private void OpenfilePath_Click(object sender, RoutedEventArgs e)
         {
             var openFile = new OpenFileDialog();
-            openFile.DefaultExt = "vlt";
-            openFile.AddExtension = true;
-            openFile.Filter = "Vault Files(*.vlt) | *.vlt;";
+            openFile.Filter = "All Files(*.*) | *.*";
             openFile.ShowDialog();
             srcPath = openFile.FileName;
             if (srcPath.Length > 0)
@@ -51,26 +49,42 @@ namespace MySafeGUI
                 openFilePath.Text = System.IO.Path.GetFileName(srcPath);
                 if (destPath.Length == 0)
                 {
-                    destPath = System.IO.Path.GetDirectoryName(srcPath) + System.IO.Path.GetFileNameWithoutExtension(srcPath) + ".ens";
+                    destPath = System.IO.Path.GetDirectoryName(srcPath) +"\\"+ System.IO.Path.GetFileNameWithoutExtension(srcPath) + ".ens";
                     saveFilePath.ToolTip = destPath;
                     saveFilePath.Text = System.IO.Path.GetFileName(destPath);
                 }
             }
             else
             {
-                openFilePath.ToolTip = "Press to Choose vault file";
-                openFilePath.Text = "No file was choosen";
+                srcPath = "";
+                openFilePath.ToolTip = "Press to Choose source file";
+                openFilePath.Text = "Source path: No file was choosen";
             }
         }
         private void Encrypt_Click(object sender, RoutedEventArgs e)
         {
-            vault.EncryptFile(srcPath, destPath, password.GetText());
+            try
+            {
+                if (destPath == "")
+                    throw new Exception("The Destnation path is empty");
+                if (srcPath == "")
+                    throw new Exception("The Source path is empty");
+                if (password.GetText() == null)
+                    throw new Exception("The password field is empty");
+                vault.EncryptFile(srcPath, destPath, password.GetText());
+                MessageBox.Show("The File has been encrypted successfully.\n"+destPath, "File Encrypted", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
         }
 
         private void SavefilePath_Click(object sender, RoutedEventArgs e)
         {
             var saveFile = new SaveFileDialog();
-            saveFile.DefaultExt = "vlt";
+            saveFile.DefaultExt = "ens";
             saveFile.AddExtension = true;
             saveFile.Filter = "Encrypted Files(*.ens) | *.ens;";
             saveFile.ShowDialog();
@@ -82,8 +96,9 @@ namespace MySafeGUI
             }
             else
             {
-                saveFilePath.ToolTip = "Press to Choose vault file";
-                saveFilePath.Text = "No file was choosen";
+                destPath = "";
+                saveFilePath.ToolTip = "Press to Choose destnation path file";
+                saveFilePath.Text = "Destnation path: No file was choosen";
             }
         }
     }

@@ -21,6 +21,7 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_Create Vault" Click="CreateVault_Click"/>
                 <MenuItem Header="_Load Vault" Click="LoadVault_Click"/>
+                <MenuItem Header="_Close Vault" Click="CloseVault_Click"/>
                 <MenuItem Header="_Encrypt File" Click="EncryptBtn_Click"/>
                 <MenuItem Header="_Decrypt File" Click="DecryptBtn_Click"/>
             </MenuItem>

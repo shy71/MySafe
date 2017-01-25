@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock x:Name="filePath" VerticalAlignment="Center" FontSize="15"/>
-        <Button Opacity="0.2" Click="filePath_Click"/>
+        <Button Opacity="0.2" Click="filePath_Click" ToolTip="{Binding ElementName=filePath, Path=ToolTip}"/>
         <local:TextControl x:Name="password" Str="Vault matster password" Grid.Row="1" FontS="15"/>
 
         <Button x:Name="openBtn" Grid.Row="2" Content="Open Vault" Click="Open_Click"/>
