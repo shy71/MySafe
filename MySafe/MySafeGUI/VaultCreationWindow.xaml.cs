@@ -31,41 +31,48 @@ namespace MySafeGUI
         {
             InitializeComponent();
             vault = v;
+            filePath_Click(null, null);            
         }
-        string FileDir = "";
-        private void Done_Click(object sender, RoutedEventArgs e)
+        string path = "";
+        private void Create_Click(object sender, RoutedEventArgs e)
         {
-            if(FileDir == "")
-            {
-                MessageBox.Show("You must enter a directory path for the vault", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-                return;
-            }
-            //create vault
             try
             {
-                vault.CreateVault(FileDir, masterPassword.GetText());
+                if (path == "")
+                    throw new Exception("The path is empty");
+                if (masterPassword.GetText() == null)
+                    throw new Exception("The master password field is empty");
+                vault.CreateVault(path, masterPassword.GetText());
+                MessageBox.Show("The Vault has been opened successfully.\n" + path, "Vault Opened", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                this.Close();
             }
-            catch(Exception err)
+            catch (Exception error)
             {
-                MessageBox.Show(err.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-                return;
+                MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
-
-            MessageBox.Show("The vault has been created successfully.", "Vault Created", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
-            this.Close();
         }
-
-        private void vaultDirectory_Click(object sender, RoutedEventArgs e)
+        private void filePath_Click(object sender, RoutedEventArgs e)
         {
-            var openFile = new SaveFileDialog();
-            openFile.DefaultExt = "vlt";
-            openFile.AddExtension = true;
-            openFile.Filter = "Vault Files(*.vlt) | *.vlt;";
-            openFile.ShowDialog();
-            FileDir = openFile.FileName;
-            vaultDirectory.SetText(FileDir);
-        }
+            var saveFile = new SaveFileDialog();
+            saveFile.DefaultExt = "vlt";
+            saveFile.AddExtension = true;
+            saveFile.Filter = "Vault Files(*.vlt) | *.vlt|All Files(*.*) | *.*";
+            saveFile.ShowDialog();
+            path = saveFile.FileName;
+            if (path.Length > 0)
+            {
+                filePath.ToolTip = path;
+                filePath.Text = System.IO.Path.GetFileName(path);
+                createBtn.IsEnabled = true;
+            }
+            else
+            {
+                filePath.ToolTip = "Press to Choose path";
+                filePath.Text = "Path: No path was chosen";
+                createBtn.IsEnabled = false;
 
+            }
+        }
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

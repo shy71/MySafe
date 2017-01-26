@@ -41,7 +41,7 @@ namespace MySafeGUI
             var openFile = new OpenFileDialog();
             openFile.DefaultExt = "vlt";
             openFile.AddExtension = true;
-            openFile.Filter = "Vault Files(*.vlt) | *.vlt;";
+            openFile.Filter = "Vault Files(*.vlt) | *.vlt|All Files(*.*) | *.*";
             openFile.ShowDialog();
             path = openFile.FileName;
             if (path.Length > 0)
@@ -53,7 +53,7 @@ namespace MySafeGUI
             else
             {
                 filePath.ToolTip = "Press to Choose vault file";
-                filePath.Text = "No file was choosen";
+                filePath.Text = "Path: No file was chosen";
                 openBtn.IsEnabled = false;
 
             }
@@ -63,8 +63,12 @@ namespace MySafeGUI
         {
             try
             {
-                vault.LoadVault(path, password.GetText());
-                MessageBox.Show("The Vault has been opened successfully.\n" + path, "Vault Opened", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                if (path == "")
+                    throw new Exception("No Vault File was chosen");
+                if (masterPassword.GetText() == null)
+                    throw new Exception("The master password field is empty");
+                vault.LoadVault(path, masterPassword.GetText());
+                MessageBox.Show("The Vault has been opened successfully.\n" + path, "Vault Opened", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
                 this.Close();
             }
             catch (Exception error)

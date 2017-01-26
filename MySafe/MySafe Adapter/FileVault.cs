@@ -36,6 +36,8 @@ namespace MySafe_Adapter
         {
             try
             {
+                if (path.Length > 250)
+                    throw new Exception("Path length is to long! Max 250 characters");
                 if (isVaultOpen())
                     throw new Exception("There is an already open vault, close it before opening a new one");
                     cppToCsharpAdapter.create_valut(this.myFileVaultPointer, path, masterPassword);
@@ -60,7 +62,8 @@ namespace MySafe_Adapter
         {
             try
             {
-
+                if (path.Length > 250)
+                    throw new Exception("Path length is to long! Max 250 characters");
                 if (isVaultOpen())
                     throw new Exception("There is an already open vault, close it before opening a new one");
                 cppToCsharpAdapter.load_valut(this.myFileVaultPointer, path, masterPassword);
@@ -85,7 +88,9 @@ namespace MySafe_Adapter
         {
             try
             {
-                cppToCsharpAdapter.encrypt_file(this.myFileVaultPointer, path, filePassword);
+                if (path.Length > 250 || newPath.Length > 250)
+                    throw new Exception("Path length is to long! Max 250 characters");       
+                cppToCsharpAdapter.encrypt_file(this.myFileVaultPointer, path,newPath, filePassword);
             }
             catch (SEHException)
             {
@@ -102,6 +107,8 @@ namespace MySafe_Adapter
         {
             try
             {
+                if (encryptedFilePath.Length > 250 || newPlainTextPath.Length > 250)
+                    throw new Exception("Path length is to long! Max 250 characters");
                 cppToCsharpAdapter.decrypt_file(this.myFileVaultPointer, encryptedFilePath, newPlainTextPath, filePassword);
             }
             catch (SEHException)

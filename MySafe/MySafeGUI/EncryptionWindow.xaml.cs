@@ -30,7 +30,7 @@ namespace MySafeGUI
             InitializeComponent();
             vault = v;
             OpenfilePath_Click(null, null);
-            
+
         }
         public EncryptionWindow()
         {
@@ -49,7 +49,7 @@ namespace MySafeGUI
                 openFilePath.Text = System.IO.Path.GetFileName(srcPath);
                 if (destPath.Length == 0)
                 {
-                    destPath = System.IO.Path.GetDirectoryName(srcPath) +"\\"+ System.IO.Path.GetFileNameWithoutExtension(srcPath) + ".ens";
+                    destPath = System.IO.Path.GetDirectoryName(srcPath) +"\\"+ System.IO.Path.GetFileName(srcPath) + ".ens";
                     saveFilePath.ToolTip = destPath;
                     saveFilePath.Text = System.IO.Path.GetFileName(destPath);
                 }
@@ -58,7 +58,12 @@ namespace MySafeGUI
             {
                 srcPath = "";
                 openFilePath.ToolTip = "Press to Choose source file";
-                openFilePath.Text = "Source path: No file was choosen";
+                openFilePath.Text = "Source File: No file was chosen";
+                if (destPath.Length == 0)
+                {
+                    saveFilePath.ToolTip = "Press to Choose destnation path";
+                    saveFilePath.Text = "Destnation path: No file was chosen";
+                }
             }
         }
         private void Encrypt_Click(object sender, RoutedEventArgs e)
@@ -68,7 +73,7 @@ namespace MySafeGUI
                 if (destPath == "")
                     throw new Exception("The Destnation path is empty");
                 if (srcPath == "")
-                    throw new Exception("The Source path is empty");
+                    throw new Exception("No File was chosen to be encrypted");
                 if (password.GetText() == null)
                     throw new Exception("The password field is empty");
                 vault.EncryptFile(srcPath, destPath, password.GetText());
@@ -86,7 +91,7 @@ namespace MySafeGUI
             var saveFile = new SaveFileDialog();
             saveFile.DefaultExt = "ens";
             saveFile.AddExtension = true;
-            saveFile.Filter = "Encrypted Files(*.ens) | *.ens;";
+            saveFile.Filter = "Encrypted Files(*.ens) | *.ens|All Files(*.*) | *.*";
             saveFile.ShowDialog();
             destPath = saveFile.FileName;
             if (destPath.Length > 0)
@@ -97,8 +102,8 @@ namespace MySafeGUI
             else
             {
                 destPath = "";
-                saveFilePath.ToolTip = "Press to Choose destnation path file";
-                saveFilePath.Text = "Destnation path: No file was choosen";
+                saveFilePath.ToolTip = "Press to Choose destnation path";
+                saveFilePath.Text = "Destnation path: No file was chosen";
             }
         }
     }

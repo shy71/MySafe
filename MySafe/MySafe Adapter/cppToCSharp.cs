@@ -25,7 +25,7 @@ namespace MySafe_Adapter
         [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
         public static extern void load_valut(IntPtr obj, string path, string master_password);
         [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void encrypt_file(IntPtr obj, string path, string file_password);
+        public static extern void encrypt_file(IntPtr obj, string path,string new_path, string file_password);
         [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
         public static extern void decrypt_file(IntPtr obj, string path,string newpath, string file_password);
         [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
