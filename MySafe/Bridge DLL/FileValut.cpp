@@ -11,7 +11,11 @@
 
 
 #define ENCLAVE_FILE _T("Enclave.signed.dll")
-
+//int precntege_of_encryption;
+//int FileValut::get_precentege()
+//{
+//	return precntege_of_encryption;
+//}
 FileValut::~FileValut()
 {
 	close_valut();
@@ -160,7 +164,7 @@ uint8_t encalve_read_part_open_file(char *path, char* buffer, size_t len, size_t
 {
 	try
 	{
-		FileManger::read_part_open_file(path, buffer, len, actual_len,call_type);
+		FileManger::read_part_open_file(path, buffer, len, actual_len,call_type, NULL);
 	}
 	catch (char* )
 	{

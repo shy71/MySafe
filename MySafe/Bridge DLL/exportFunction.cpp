@@ -123,4 +123,21 @@ extern "C"
 			throw ex;
 		}
 	}
+	/*__declspec(dllexport) int precntege_of_encryption(FileValut* obj)
+	{
+		try
+		{
+			return obj->get_precentege();
+		}
+		catch (exception* ex)
+		{
+			obj->SetLastErrorMessage(ex->what());
+			throw ex;
+		}
+		catch (char* ex)
+		{
+			obj->SetLastErrorMessage(ex);
+			throw ex;
+		}
+	}*/
 }

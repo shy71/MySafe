@@ -26,7 +26,7 @@ namespace MySafeGUI
         public MainWindow()
         {
             InitializeComponent();
-            Directory.SetCurrentDirectory("../../../Debug");
+            Directory.SetCurrentDirectory("../../../Simulation");
             vault = new FileVault();
 
         }

@@ -88,7 +88,7 @@ void FileManger::read_file(char * path, char* buffer, size_t size, size_t *actua
 	file.close();
 
 }
-void FileManger::read_part_open_file(char * path, char* buffer, size_t size, size_t *actual_len,int call_type)
+void FileManger::read_part_open_file(char * path, char* buffer, size_t size, size_t *actual_len,int call_type,int *percentage)
 {
 	static int fileSize;
 	static int counter;
@@ -101,6 +101,8 @@ void FileManger::read_part_open_file(char * path, char* buffer, size_t size, siz
 			throw "File wasn't open";
 		fileSize = getFileSize(path);
 		counter = 0;
+		if(percentage!=NULL)
+		*percentage = 0;
 	}
 	else if (call_type == 2)
 	{
@@ -109,6 +111,9 @@ void FileManger::read_part_open_file(char * path, char* buffer, size_t size, siz
 		if (!file.is_open())
 			throw "File wasn't open";
 		file.close();
+		if (percentage != NULL)
+
+		*percentage = 100;
 	}
 	else if (call_type == 1)
 	{
@@ -124,6 +129,9 @@ void FileManger::read_part_open_file(char * path, char* buffer, size_t size, siz
 				*actual_len = size;
 		file.read(buffer, size);
 		counter += *actual_len;
+		if (percentage != NULL)
+
+		*percentage =(int) ((counter / fileSize) * 100);
 	}
 
 }

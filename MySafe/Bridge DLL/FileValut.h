@@ -25,6 +25,8 @@ public:
 	void changer_user_password(char * path, char * old_password, char * new_password);
 	void SetLastErrorMessage(const char * error);
 	string GetLastErrorMessage();
+	//int get_precentege();
+
 
 
 };

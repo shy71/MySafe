@@ -68,7 +68,7 @@ namespace MySafeGUI
                 if (masterPassword.GetText() == null)
                     throw new Exception("The master password field is empty");
                 vault.LoadVault(path, masterPassword.GetText());
-                MessageBox.Show("The Vault has been opened successfully.\n" + path, "Vault Opened", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                MessageBox.Show("The Vault has been opened successfully.\n" + path, "Vault Opened", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
                 this.Close();
             }
             catch (Exception error)

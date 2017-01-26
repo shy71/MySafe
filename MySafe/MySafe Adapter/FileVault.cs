@@ -161,5 +161,22 @@ namespace MySafe_Adapter
                 throw;
             }
         }
+        public int PrecntegeOfEncryption()
+        {
+            try
+            {
+                return cppToCsharpAdapter.precntege_of_encryption(this.myFileVaultPointer);
+            }
+            catch (SEHException)
+            {
+                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
+                string message = Marshal.PtrToStringAnsi(cString);
+                throw new Exception(message);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

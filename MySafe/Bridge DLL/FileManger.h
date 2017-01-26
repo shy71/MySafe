@@ -12,6 +12,6 @@ public:
 
 	static int getFileSize(const char *add);
 	static void read_file(char * path, char* buffer, size_t size, size_t *actaul_len);
-	static void read_part_open_file(char * path, char* buffer, size_t size, size_t *actaul_len,int call_type);
+	static void read_part_open_file(char * path, char* buffer, size_t size, size_t *actaul_len,int call_type,int *percentage);
 
 };

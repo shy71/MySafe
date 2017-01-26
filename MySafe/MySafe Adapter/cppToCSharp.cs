@@ -34,5 +34,8 @@ namespace MySafe_Adapter
         public static extern void deleteFileValutobj(ref IntPtr obj);
         [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
         public static extern int is_vault_open(IntPtr obj);
+        [DllImport(dllPath, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int precntege_of_encryption(IntPtr obj);
+        
     }
 }
