@@ -66,7 +66,7 @@ namespace MySafeGUI
                             + "that it is secure when trying to decrypt it from a different computer.\n"
                             + "For example, if a file was encrypted on a certain machine, there is no way to decrypt it on another machine, \neven if all the code and the data of the first machine is compromised.\n\n"
                             + "WARNING! \nThis program only works on computers that support Intel SGX.",
-                            "Description", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                            "Description", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
 
         private void CreateVault_Click(object sender, RoutedEventArgs e)
@@ -122,7 +122,7 @@ namespace MySafeGUI
                 if (!vault.isVaultOpen())
                     throw new Exception("There isn't any open vault to close!");
                 vault.CloseVault();
-                MessageBox.Show("The Vault has been closed successfully.\n" + vault.FilePath, "Vault Closed", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                MessageBox.Show("The Vault has been closed successfully.\n" + vault.FilePath, "Vault Closed", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
             }
             catch (Exception error)
             {

@@ -64,7 +64,7 @@ namespace MySafeGUI
             try
             {
                 vault.LoadVault(path, password.GetText());
-                MessageBox.Show("The Vault has been opened successfully.\n" + path, "Vault Opened", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                MessageBox.Show("The Vault has been opened successfully.\n" + path, "Vault Opened", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
                 this.Close();
             }
             catch (Exception error)

@@ -72,7 +72,7 @@ namespace MySafeGUI
                 if (password.GetText() == null)
                     throw new Exception("The password field is empty");
                 vault.EncryptFile(srcPath, destPath, password.GetText());
-                MessageBox.Show("The File has been encrypted successfully.\n"+destPath, "File Encrypted", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                MessageBox.Show("The File has been encrypted successfully.\n"+destPath, "File Encrypted", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
                 this.Close();
             }
             catch (Exception ex)
