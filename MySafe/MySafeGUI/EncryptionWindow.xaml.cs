@@ -80,6 +80,7 @@ namespace MySafeGUI
                 openFilePath.IsEnabled = false;
                 saveFilePath.IsEnabled = false;
                 encryptBtn.IsEnabled = false;
+
                 progressBar.Value = 0;
                 progressBar.ToolTip = 0;
                 label.Visibility = Visibility.Visible;

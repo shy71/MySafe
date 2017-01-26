@@ -16,9 +16,9 @@
         </Grid.RowDefinitions>
 
         <TextBlock x:Name="openFilePath" VerticalAlignment="Center" FontSize="15"/>
-        <Button Opacity="0.2" Click="OpenfilePath_Click" ToolTip="{Binding ElementName=openFilePath, Path=ToolTip}"/>
+        <Button  Opacity="0.2" Click="OpenfilePath_Click" IsEnabled="{Binding ElementName=openFilePath, Path=IsEnabled}" ToolTip="{Binding ElementName=openFilePath, Path=ToolTip}"/>
         <TextBlock x:Name="saveFilePath" VerticalAlignment="Center" FontSize="15" Grid.Row="1"/>
-        <Button Opacity="0.2" Click="SavefilePath_Click" Grid.Row="1" ToolTip="{Binding ElementName=saveFilePath, Path=ToolTip}"/>
+        <Button Opacity="0.2" Click="SavefilePath_Click" Grid.Row="1" IsEnabled="{Binding ElementName=saveFilePath, Path=IsEnabled}" ToolTip="{Binding ElementName=saveFilePath, Path=ToolTip}"/>
         <local:TextControl x:Name="password" Str="File password" Grid.Row="2" FontS="15"/>
         <Button x:Name="encryptBtn" Grid.Row="3" Content="Encrypt Vault" Click="Encrypt_Click"/>
         <ProgressBar x:Name="progressBar" Grid.Row="4"/>

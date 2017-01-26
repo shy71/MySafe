@@ -63,13 +63,11 @@ namespace MySafeGUI
             {
                 filePath.ToolTip = path;
                 filePath.Text = System.IO.Path.GetFileName(path);
-                createBtn.IsEnabled = true;
             }
             else
             {
                 filePath.ToolTip = "Press to Choose path";
                 filePath.Text = "Path: No path was chosen";
-                createBtn.IsEnabled = false;
 
             }
         }

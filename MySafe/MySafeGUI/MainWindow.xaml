@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MySafeGUI"
         mc:Ignorable="d"
-        Title="My-Safe" Height="500" Width="800">
+        Title="My-Safe" Height="500" Width="800" Background="#FFA50221">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.3*"/>

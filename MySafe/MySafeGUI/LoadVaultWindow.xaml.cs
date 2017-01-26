@@ -48,13 +48,11 @@ namespace MySafeGUI
             {
                 filePath.ToolTip = path;
                 filePath.Text = System.IO.Path.GetFileName(path);
-                openBtn.IsEnabled = true;
             }
             else
             {
                 filePath.ToolTip = "Press to Choose vault file";
                 filePath.Text = "Path: No file was chosen";
-                openBtn.IsEnabled = false;
 
             }
         }
