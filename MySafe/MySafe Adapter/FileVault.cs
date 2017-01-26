@@ -126,12 +126,14 @@ namespace MySafe_Adapter
         {
             try
             {
-                cppToCsharpAdapter.close_valut();
-                if(isVaultOpen())
+                cppToCsharpAdapter.close_valut(this.myFileVaultPointer);
+                if (!isVaultOpen())
                 {
                     fileName = "";
                     filePath = "";
                 }
+                else
+                    throw new Exception("Error: Vault wasn't closed!");
             }
             catch (SEHException)
             {

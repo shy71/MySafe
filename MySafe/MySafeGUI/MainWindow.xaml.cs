@@ -128,10 +128,10 @@ namespace MySafeGUI
             }
             finally
             {
-                if (vault.isVaultOpen())
+                if (!vault.isVaultOpen())
                 {
-                    openVault.Text = vault.FileName;
-                    openVault.ToolTip = vault.FilePath;
+                    openVault.Text ="";
+                    openVault.ToolTip ="";
                 }
             }
         }
