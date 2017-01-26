@@ -24,10 +24,10 @@
     <ClCompile Include="Enclave_u.c">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileValut.cpp">
+    <ClCompile Include="FileManger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileManger.cpp">
+    <ClCompile Include="FileVault.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,10 +35,10 @@
     <ClInclude Include="Enclave_u.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileValut.h">
+    <ClInclude Include="FileManger.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileManger.h">
+    <ClInclude Include="FileVault.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

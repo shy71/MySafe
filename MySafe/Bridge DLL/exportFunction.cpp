@@ -1,27 +1,25 @@
-#include "FileValut.h"
+#include "FileVault.h"
 //writes the functions written in lib into a dll file 
 extern "C"
 {
 	//DISK FUNCTIONS:
-	__declspec(dllexport) FileValut* makeFileValutobj()
-	{
-		FileValut *obj = new FileValut();
-		obj->create_enclave();
-		return obj;
+	__declspec(dllexport) FileVault* getFileVaultObj()
+	{ 
+		return FileVault::getFileVault();
+
 	}
-	__declspec(dllexport) void deleteFileValutobj(FileValut*& obj)
+	__declspec(dllexport) void deleteFileVaultobj(FileVault*& obj)
 	{
-		if (obj != NULL)
-			delete  obj;
+		FileVault::deleteFileVault();
 		obj = NULL;
 	}
-	__declspec(dllexport) const char* GetLastFileValutErrorMessage(FileValut* obj)
+	__declspec(dllexport) const char* GetLastFileVaultErrorMessage(FileVault* obj)
 	{
 		char* str=new char[200];
 		strcpy_s(str,200,obj->GetLastErrorMessage().c_str());
 		return str;
 	}
-	__declspec(dllexport) void create_valut(FileValut* obj, char * path, char* master_password)
+	__declspec(dllexport) void create_valut(FileVault* obj, char * path, char* master_password)
 	{
 		try
 		{
@@ -38,7 +36,7 @@ extern "C"
 			throw ex;
 		}
 	}
-	__declspec(dllexport) void close_valut(FileValut* obj)
+	__declspec(dllexport) void close_valut(FileVault* obj)
 	{
 		try
 		{
@@ -55,7 +53,7 @@ extern "C"
 			throw ex;
 		}
 	}
-	__declspec(dllexport) void load_valut(FileValut* obj,char * path, char* master_password)
+	__declspec(dllexport) void load_valut(FileVault* obj,char * path, char* master_password)
 	{
 		try
 		{
@@ -72,7 +70,7 @@ extern "C"
 			throw ex;
 		}
 	}
-	__declspec(dllexport) void encrypt_file(FileValut* obj, char * path,char * new_path, char * file_password)
+	__declspec(dllexport) void encrypt_file(FileVault* obj, char * path,char * new_path, char * file_password)
 	{
 		try
 		{
@@ -89,7 +87,7 @@ extern "C"
 			throw ex;
 		}
 	}
-	__declspec(dllexport) void decrypt_file(FileValut* obj, char * path,char* new_path, char * file_password)
+	__declspec(dllexport) void decrypt_file(FileVault* obj, char * path,char* new_path, char * file_password)
 	{
 		try
 		{
@@ -106,7 +104,7 @@ extern "C"
 			throw ex;
 		}
 	}
-	__declspec(dllexport) int is_vault_open(FileValut* obj)
+	__declspec(dllexport) int is_vault_open(FileVault* obj)
 	{
 		try
 		{
@@ -123,11 +121,11 @@ extern "C"
 			throw ex;
 		}
 	}
-	/*__declspec(dllexport) int precntege_of_encryption(FileValut* obj)
+	__declspec(dllexport) double get_precntege_of_process(FileVault* obj)
 	{
 		try
 		{
-			return obj->get_precentege();
+			return obj->process_percentage;
 		}
 		catch (exception* ex)
 		{
@@ -139,5 +137,5 @@ extern "C"
 			obj->SetLastErrorMessage(ex);
 			throw ex;
 		}
-	}*/
+	}
 }

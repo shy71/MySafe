@@ -12,6 +12,7 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.7*"/>
         </Grid.RowDefinitions>
 
         <TextBlock x:Name="openFilePath" VerticalAlignment="Center" FontSize="15"/>
@@ -20,5 +21,7 @@
         <Button Opacity="0.2" Click="SavefilePath_Click" Grid.Row="1" ToolTip="{Binding ElementName=saveFilePath, Path=ToolTip}"/>
         <local:TextControl x:Name="password" Str="File password" Grid.Row="2" FontS="15"/>
         <Button x:Name="encryptBtn" Grid.Row="3" Content="Encrypt Vault" Click="Encrypt_Click"/>
+        <ProgressBar x:Name="progressBar" Grid.Row="4"/>
+        <Label x:Name="label" Content="Encryoption Progress" Grid.Row="4" HorizontalAlignment="Center" Visibility="Collapsed"  ToolTip="{Binding ElementName=progressBar, Path=ToolTip}"/>
     </Grid>
 </Window>

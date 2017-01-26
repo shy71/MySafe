@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MySafe_Adapter;
 using Microsoft.Win32;
+using System.Threading;
 
 namespace MySafeGUI
 {
@@ -73,14 +74,53 @@ namespace MySafeGUI
                 if (destPath == "")
                     throw new Exception("The Destnation path is empty");
                 if (srcPath == "")
-                    throw new Exception("No Encrypted File was chosen");
+                    throw new Exception("No File was chosen to be decrypted");
                 if (password.GetText() == null)
                     throw new Exception("The password field is empty");
-                vault.DecryptFile(srcPath, destPath, password.GetText());
-                MessageBox.Show("The File has been decrypted successfully.\n" + destPath, "File Decrypted", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
-                this.Close();
+                openFilePath.IsEnabled = false;
+                saveFilePath.IsEnabled = false;
+                decryptBtn.IsEnabled = false;
+                progressBar.Value = 0;
+                progressBar.ToolTip = 0;
+                label.Visibility = Visibility.Visible;
+                new Task((password) =>
+                {
+                    try
+                    {
+                        vault.DecryptFile(srcPath, destPath, password.ToString());
+                        Dispatcher.Invoke(() =>
+                        {
+                            progressBar.Value = 100;
+                            MessageBox.Show("The File has been decrypted successfully.\n" + destPath, "File Decrypted", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                            this.Close();
+                        });
+                    }
+                    catch(Exception ex)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                        });
+                    }
+                }, password.GetText()).Start();
+                new Task(() =>
+                {
+                    double progress = 0;
+                    while (progress < 99.8)
+                    {
+                        Thread.Sleep(20);
+                        progress = vault.GetPrecntegeOfProcess();
+                        Dispatcher.Invoke(() =>
+                        {
+                            progressBar.Value = progress;
+                            progressBar.ToolTip = Math.Round(progress, 2);
+                        });
+                    }
+                }).Start();
+                //vault.EncryptFile(srcPath, destPath, password.GetText());
+                //this.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
