@@ -1,7 +1,7 @@
 #include <tchar.h>
 #include <string.h>
 #include<iostream>
-#include "FileValut.h"
+#include "FileVault.h"
 #include "Enclave_u.h"
 #include "FileManger.h"
 #include "sgx_urts.h"
@@ -12,17 +12,31 @@
 
 #define ENCLAVE_FILE _T("Enclave.signed.dll")
 //int precntege_of_encryption;
-//int FileValut::get_precentege()
+//int FileVault::get_precentege()
 //{
 //	return precntege_of_encryption;
 //}
-FileValut::~FileValut()
+static FileVault* obj;
+FileVault::~FileVault()
 {
 	close_valut();
 	close_enclave();
 }
-
-void FileValut::close_enclave()
+FileVault* FileVault::getFileVault()
+{
+	if (obj == NULL)
+	{
+		obj = new FileVault();
+		obj->create_enclave();
+	}
+	return obj;
+}
+void  FileVault::deleteFileVault()
+{
+	delete obj;
+	obj = NULL;
+}
+void FileVault::close_enclave()
 {
 	sgx_destroy_enclave(eid);
 	eid = NULL;
@@ -63,7 +77,7 @@ exception* make_error_exception(char *operation, int error_number)
 
 	return new exception(error_code_to_string(error_number));
 }
-void FileValut::create_enclave()
+void FileVault::create_enclave()
 {
 	sgx_enclave_id_t eid;
 	sgx_launch_token_t token = { 0 };
@@ -74,53 +88,61 @@ void FileValut::create_enclave()
 		throw make_error_exception("Create Enclave(SGX)", ret);
 	this->eid = eid;
 }
-void FileValut::create_valut(char * path, char * master_password)
+void FileVault::create_valut(char * path, char * master_password)
 {
 	if (valut_open)
 		throw "You can'thve two opened vault at the same time";
 	create_valut_file(eid, &res, path, master_password, strlen(master_password));
 	if (res)
-		throw make_error_exception("Create Valut", res);
+		throw make_error_exception("Create Vault", res);
 	valut_open = true;
 
 }
-void FileValut::close_valut()
+void FileVault::close_valut()
 {
 	enclave_close_valut(eid);
 	valut_open = false;
 }
-void FileValut::load_valut(char * path, char * master_password)
+void FileVault::load_valut(char * path, char * master_password)
 {
 	if (valut_open)
 		throw "You can't have two opened vault at the same time";
 	load_valut_from_file(eid, &res, path, master_password, strlen(master_password));
 	if (res)
-		throw make_error_exception("Load Valut", res);
+		throw make_error_exception("Load Vault", res);
 	valut_open = true;
 }
-FileValut::FileValut() {}
-void FileValut::encrypt_file(char * path,char* new_path,char * file_password)
+FileVault::FileVault() {}
+void FileVault::encrypt_file(char * path,char* new_path,char * file_password)
 {
+	if (middle_of_process)
+		throw "File Vault is in the middle of anther process! Please wait until it is over!";
 	if (!valut_open)
 		throw "You can't encrypt files before you load a vault!";
+	middle_of_process = true;
 	enclave_encrypt_file(eid, &res, path,new_path, file_password, strlen(file_password));
+	middle_of_process = false;
 	if (res)
 		throw make_error_exception("Encrypt File", res);
 }
-void FileValut::decrypt_file(char * path, char* new_path, char * file_password)
+void FileVault::decrypt_file(char * path, char* new_path, char * file_password)
 {
+	if (middle_of_process)
+		throw "File Vault is in the middle of anther process! Please wait until it is over!";
 	if (!valut_open)
 		throw "You can't decrypt files before you load a vault!";
+	middle_of_process = true;
 	enclave_decrypt_file(eid, &res, path, new_path, file_password, strlen(file_password));
+	middle_of_process = false;
 	if (res)
 		throw make_error_exception("Decrypt File", res);
 }
-void FileValut::changer_user_password(char * path, char * old_password, char * new_password) {}
-void FileValut::SetLastErrorMessage(const char * error)
+void FileVault::changer_user_password(char * path, char * old_password, char * new_password) {}
+void FileVault::SetLastErrorMessage(const char * error)
 {
 	last_error_msg = error;
 }
-string FileValut::GetLastErrorMessage()
+string FileVault::GetLastErrorMessage()
 {
 	return last_error_msg;
 }
@@ -164,7 +186,7 @@ uint8_t encalve_read_part_open_file(char *path, char* buffer, size_t len, size_t
 {
 	try
 	{
-		FileManger::read_part_open_file(path, buffer, len, actual_len,call_type, NULL);
+		FileManger::read_part_open_file(path, buffer, len, actual_len,call_type);
 	}
 	catch (char* )
 	{
@@ -184,7 +206,7 @@ void encalve_file_size(char *path, size_t *size)
 	}
 	return;
 }
-bool FileValut::is_vault_open() { return valut_open; }
+bool FileVault::is_vault_open() { return valut_open; }
 
 
 
@@ -207,14 +229,14 @@ int main()
 	cin >> num;
 	if (num)
 	{
-	FileValut file;
+	FileVault file;
 	file.create_enclave();
 	file.create_valut("try2", "shy71");
 	system("pause");
 	}
 	else
 	{
-	FileValut file;
+	FileVault file;
 	file.create_enclave();
 	file.load_valut("try2", "shy71");
 	system("pause");
@@ -223,24 +245,24 @@ int main()
 	}*/
 	try
 	{
-		/*FileValut file;
+		/*FileVault file;
 		file.create_enclave();
 		file.load_valut("try2", "shy71");
 		file.decrypt_file("TEXT.txt.ens", "text.txt", "123456");
 		cout << "decrypted! Check text.txt" << endl;
 		system("pause");*/
-		int num;
+		/*int num;
 		cin >> num;
 		if (num == 1)
 		{
-			FileValut file;
+			FileVault file;
 			file.create_enclave();
 			file.create_valut("try2", "shy71");
 			system("pause");
 		}
 		else if (num == 2)
 		{
-			FileValut file;
+			FileVault file;
 			file.create_enclave();
 			file.load_valut("try2", "shy71");
 			file.encrypt_file("TEXT.txt", "TEXT.txt.ens", "123456");
@@ -248,7 +270,7 @@ int main()
 		}
 		else if (num == 3)
 		{
-			FileValut file;
+			FileVault file;
 			file.create_enclave();
 			file.load_valut("try2", "shy71");
 			file.decrypt_file("TEXT.txt.ens", "text-2.txt", "123456");
@@ -256,12 +278,12 @@ int main()
 		}
 		else if (num == 4)
 		{
-			FileValut file;
+			FileVault file;
 			file.create_enclave();
 			file.load_valut("try2", "shy71");
 			file.decrypt_file("TEXT.txt.ens", "text.shy", "123456");
 			system("pause");
-		}
+		}*/
 	}
 	catch (exception ex)
 	{

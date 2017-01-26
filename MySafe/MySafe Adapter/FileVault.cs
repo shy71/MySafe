@@ -25,12 +25,12 @@ namespace MySafe_Adapter
         }
         public FileVault()
         {
-            myFileVaultPointer = cppToCsharpAdapter.makeFileValutobj();
+            myFileVaultPointer = cppToCsharpAdapter.getFileVaultObj();
         }
         ~FileVault()
         {
             if (myFileVaultPointer != null)
-                cppToCsharpAdapter.deleteFileValutobj(ref myFileVaultPointer);
+                cppToCsharpAdapter.deleteFileVaultobj(ref myFileVaultPointer);
         }
         public void CreateVault(string path, string masterPassword)
         {
@@ -49,7 +49,7 @@ namespace MySafe_Adapter
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileVaultErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
@@ -75,7 +75,7 @@ namespace MySafe_Adapter
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileVaultErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
@@ -94,7 +94,7 @@ namespace MySafe_Adapter
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileVaultErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
@@ -113,7 +113,7 @@ namespace MySafe_Adapter
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileVaultErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
@@ -137,7 +137,7 @@ namespace MySafe_Adapter
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileVaultErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
@@ -154,7 +154,7 @@ namespace MySafe_Adapter
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileVaultErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
@@ -163,15 +163,15 @@ namespace MySafe_Adapter
                 throw;
             }
         }
-        public int PrecntegeOfEncryption()
+        public double GetPrecntegeOfProcess()
         {
             try
             {
-                return cppToCsharpAdapter.precntege_of_encryption(this.myFileVaultPointer);
+                return cppToCsharpAdapter.get_precntege_of_process(this.myFileVaultPointer);
             }
             catch (SEHException)
             {
-                IntPtr cString = cppToCsharpAdapter.GetLastFileValutErrorMessage(this.myFileVaultPointer);
+                IntPtr cString = cppToCsharpAdapter.GetLastFileVaultErrorMessage(this.myFileVaultPointer);
                 string message = Marshal.PtrToStringAnsi(cString);
                 throw new Exception(message);
             }
