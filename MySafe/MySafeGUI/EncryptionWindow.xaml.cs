@@ -84,11 +84,14 @@ namespace MySafeGUI
                 progressBar.Value = 0;
                 progressBar.ToolTip = 0;
                 label.Visibility = Visibility.Visible;
+                MessageBoxResult result= MessageBox.Show("Do you want to delete the orignal file?\nThe file will be deleted if and when the process will finsih successfully", "Delete the orignal file", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Cancel)
+                    return;
                 new Task((password) =>
                 {
                     try
                     {
-                        vault.EncryptFile(srcPath, destPath, password.ToString());
+                        vault.EncryptFile(srcPath, destPath, password.ToString(), MessageBoxResult.Yes==result);
                         Dispatcher.Invoke(() =>
                         {
                             progressBar.Value = 100;

@@ -84,13 +84,13 @@ namespace MySafe_Adapter
                 throw;
             }
         }
-        public void EncryptFile(string path,string newPath, string filePassword)
+        public void EncryptFile(string path,string newPath, string filePassword,bool deleteOriginal)
         {
             try
             {
                 if (path.Length > 250 || newPath.Length > 250)
                     throw new Exception("Path length is to long! Max 250 characters");       
-                cppToCsharpAdapter.encrypt_file(this.myFileVaultPointer, path,newPath, filePassword);
+                cppToCsharpAdapter.encrypt_file(this.myFileVaultPointer, path,newPath, filePassword, deleteOriginal);
             }
             catch (SEHException)
             {
@@ -103,13 +103,13 @@ namespace MySafe_Adapter
                 throw;
             }
         }
-        public void DecryptFile(string encryptedFilePath,string newPlainTextPath, string filePassword)
+        public void DecryptFile(string encryptedFilePath,string newPlainTextPath, string filePassword, bool deleteEncrypted)
         {
             try
             {
                 if (encryptedFilePath.Length > 250 || newPlainTextPath.Length > 250)
                     throw new Exception("Path length is to long! Max 250 characters");
-                cppToCsharpAdapter.decrypt_file(this.myFileVaultPointer, encryptedFilePath, newPlainTextPath, filePassword);
+                cppToCsharpAdapter.decrypt_file(this.myFileVaultPointer, encryptedFilePath, newPlainTextPath, filePassword,deleteEncrypted);
             }
             catch (SEHException)
             {

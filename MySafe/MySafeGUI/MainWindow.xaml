@@ -1,11 +1,15 @@
-﻿<Window x:Class="MySafeGUI.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MySafeGUI"
+        x:Class="MySafeGUI.MainWindow"
         mc:Ignorable="d"
-        Title="My-Safe" Height="500" Width="800" Background="#FFA50221">
+        Title="My-Safe" Height="500" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="background.jpg"></ImageBrush>
+    </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.3*"/>
@@ -18,22 +22,22 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
-            <MenuItem Header="_File">
+            <MenuItem Header="_Vault">
                 <MenuItem Header="_Create Vault" Click="CreateVault_Click"/>
                 <MenuItem Header="_Load Vault" Click="LoadVault_Click"/>
                 <MenuItem Header="_Close Vault" Click="CloseVault_Click"/>
+            </MenuItem>
+            <MenuItem Header="_File">
                 <MenuItem Header="_Encrypt File" Click="EncryptBtn_Click"/>
                 <MenuItem Header="_Decrypt File" Click="DecryptBtn_Click"/>
             </MenuItem>
             <MenuItem x:Name="Information" Header="_Information" Click="Information_Click"/>
         </Menu>
-        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" FontSize="20" >
-            Welcome to My-Safe file emcryptor program.
-            <LineBreak/> For more information about this program you may read the description above.
-        </TextBlock>
-        <TextBlock Text="Open Vault:" FontSize="20" VerticalAlignment="Center" Grid.Row="2" HorizontalAlignment="Left"/>
-        <TextBlock x:Name="openVault" FontSize="20" VerticalAlignment="Center" Margin="120,0,0,0" Grid.Row="2" HorizontalAlignment="Left"/>
-        <Button x:Name="EncryptBtn" Content="Encrypt a file" FontSize="20" Grid.Row="3" Margin="70,50,70,125" Click="EncryptBtn_Click"/>
-        <Button x:Name="DecryptBtn" Content="Decrypt a file" FontSize="20" Grid.Row="3" Grid.Column="1" Margin="70,50,70,125" Click="DecryptBtn_Click"/>
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="My Safe" FontWeight="bold" Foreground="White" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock x:Name="vaultLabel" FontWeight="ExtraBold" Background="White" Foreground="White" FontSize="25" VerticalAlignment="Center" Grid.Row="2" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
+        <Image x:Name="encryptImage" Source="lock.png" Stretch="Uniform" Width="164" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <Button x:Name="EncryptBtn" Opacity="0.1" ToolTip="Encrypt a File" Grid.Row="3" Width="{Binding ElementName=encryptImage , Path=ActualWidth}"  Height="{Binding ElementName=encryptImage , Path=ActualHeight}" Click="EncryptBtn_Click" HorizontalAlignment="Center"  VerticalAlignment="Center" />
+        <Image x:Name="decryptImage" Source="unlock.png" Stretch="Uniform" Width="164"  Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        <Button  x:Name="DecryptBtn" Opacity="0.1" ToolTip="Decrypt a file" Width="{Binding ElementName=decryptImage , Path=ActualWidth}"  Height="{Binding ElementName=decryptImage , Path=ActualHeight}" Grid.Row="3"  Click="DecryptBtn_Click" HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Column="1"/>
     </Grid>
 </Window>

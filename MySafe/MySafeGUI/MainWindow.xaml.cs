@@ -28,6 +28,7 @@ namespace MySafeGUI
             InitializeComponent();
             Directory.SetCurrentDirectory("../../../Simulation");
             vault = new FileVault();
+            ClearOpenVault();
 
         }
         private void EncryptBtn_Click(object sender, RoutedEventArgs e)
@@ -85,12 +86,26 @@ namespace MySafeGUI
             {
                 if (vault.isVaultOpen())
                 {
-                    openVault.Text = vault.FileName;
-                    openVault.ToolTip = vault.FilePath;
+                    SetOpenVault();
                 }
             }
         }
+        private void SetOpenVault()
+        {
+            vaultLabel.Text ="Open Vault: " +vault.FileName;
+            vaultLabel.ToolTip = vault.FilePath;
+           // EncryptBtn.IsEnabled = true;
+           // DecryptBtn.IsEnabled = true;
+        }
+        private void ClearOpenVault()
+        {
+            vaultLabel.Foreground = Brushes.DarkRed;
 
+            vaultLabel.Text = "No Vault is open";
+            vaultLabel.ToolTip = "Click the Vault menu to create/load a vault";
+        //    EncryptBtn.IsEnabled = false;
+//DecryptBtn.IsEnabled = false;
+        }
         private void LoadVault_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -107,8 +122,7 @@ namespace MySafeGUI
             {
                 if (vault.isVaultOpen())
                 {
-                    openVault.Text = vault.FileName;
-                    openVault.ToolTip = vault.FilePath;
+                    SetOpenVault();
                 }
             }
         }
@@ -130,8 +144,7 @@ namespace MySafeGUI
             {
                 if (!vault.isVaultOpen())
                 {
-                    openVault.Text ="";
-                    openVault.ToolTip ="";
+                    ClearOpenVault();
                 }
             }
         }

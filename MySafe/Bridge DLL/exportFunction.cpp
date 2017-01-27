@@ -70,11 +70,11 @@ extern "C"
 			throw ex;
 		}
 	}
-	__declspec(dllexport) void encrypt_file(FileVault* obj, char * path,char * new_path, char * file_password)
+	__declspec(dllexport) void encrypt_file(FileVault* obj, char * path,char * new_path, char * file_password,int delete_original)
 	{
 		try
 		{
-			obj->encrypt_file(path,new_path, file_password);
+			obj->encrypt_file(path,new_path, file_password,(bool)delete_original);
 		}
 		catch (exception* ex)
 		{
@@ -87,11 +87,11 @@ extern "C"
 			throw ex;
 		}
 	}
-	__declspec(dllexport) void decrypt_file(FileVault* obj, char * path,char* new_path, char * file_password)
+	__declspec(dllexport) void decrypt_file(FileVault* obj, char * path,char* new_path, char * file_password,int delete_encrypted)
 	{
 		try
 		{
-			obj->decrypt_file(path, new_path,file_password);
+			obj->decrypt_file(path, new_path,file_password,delete_encrypted);
 		}
 		catch (exception* ex)
 		{
