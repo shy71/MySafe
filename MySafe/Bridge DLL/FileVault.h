@@ -7,31 +7,68 @@ using namespace std;
 
 class FileVault
 {
+	//Variables
 	sgx_enclave_id_t eid;
-	bool valut_open=false;
+	bool vault_open = false;
 	void create_enclave();
 	string last_error_msg;
 	sgx_status_t res;
+	bool middle_of_process = false;
+
+	//Functions
+
+	//Constructor
 	FileVault();
-	bool middle_of_process=false;
-public:
-	static FileVault* getFileVault();
-	static void deleteFileVault();
-	~FileVault();
-	bool is_vault_open();
-	void create_valut(char * path, char * master_password);
+
+	//Close the enclave
 	void close_enclave();
-	void load_valut(char * path, char * master_password);
-	void close_valut();
-	void encrypt_file(char * path, char* new_path, char * file_password,bool delete_original);
-	void decrypt_file(char * path, char* new_path, char * file_password,bool delete_encrypted);
-	void changer_user_password(char * path, char * old_password, char * new_password);
-	void SetLastErrorMessage(const char * error);
-	string GetLastErrorMessage();
+public:
+	//Public variables
+
+	//The Percentage of the current process
 	double process_percentage;
 
-	//int get_precentege();
+
+	//Destructor
+	~FileVault();
 
 
+	//Static Functions
 
+	//Get the File Vault object(or create it)
+	static FileVault* getFileVault();
+
+	//Delete the File Vault object
+	static void deleteFileVault();
+
+
+	//Vault Functions
+
+	//Create a new vault file
+	void create_vault(char * path, char * master_password);
+
+	//Load a vault from a vault file
+	void load_vault(char * path, char * master_password);
+
+	//Close the current vault
+	void close_vault();
+
+	//Check wheter the vault is open right now
+	bool is_vault_open();
+
+
+	//Files Function
+
+	//Encrypt a file
+	void encrypt_file(char * path, char* new_path, char * file_password, bool delete_original);
+
+	//Decrypt a file
+	void decrypt_file(char * path, char* new_path, char * file_password, bool delete_encrypted);
+
+
+	//Other Functions
+
+	//Set the last_error_msg
+	void SetLastErrorMessage(const char * error);
+	string GetLastErrorMessage();
 };

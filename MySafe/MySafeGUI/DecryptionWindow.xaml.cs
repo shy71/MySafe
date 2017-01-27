@@ -1,17 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using MySafe_Adapter;
 using Microsoft.Win32;
 using System.Threading;
@@ -23,9 +12,13 @@ namespace MySafeGUI
     /// </summary>
     public partial class DecryptionWindow : Window
     {
+        //Current Vault
         FileVault vault;
+        //Source File Path
         string srcPath = "";
+        //Destination File Path
         string destPath = "";
+
         public DecryptionWindow(FileVault v)
         {
             InitializeComponent();
@@ -37,7 +30,8 @@ namespace MySafeGUI
         {
             InitializeComponent();
         }
-
+        #region Clicks Functions
+        //Source File Path Click Function
         private void OpenfilePath_Click(object sender, RoutedEventArgs e)
         {
             var openFile = new OpenFileDialog();
@@ -67,6 +61,7 @@ namespace MySafeGUI
                 }
             }
         }
+        //Decrypt Click Function
         private void Decrypt_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -90,7 +85,7 @@ namespace MySafeGUI
                 {
                     try
                     {
-                        vault.DecryptFile(srcPath, destPath, password.ToString(),MessageBoxResult.Yes==result);
+                        vault.DecryptFile(srcPath, destPath, password.ToString(), MessageBoxResult.Yes == result);
                         Dispatcher.Invoke(() =>
                         {
                             progressBar.Value = 100;
@@ -98,7 +93,7 @@ namespace MySafeGUI
                             this.Close();
                         });
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Dispatcher.Invoke(() =>
                         {
@@ -129,10 +124,11 @@ namespace MySafeGUI
             }
         }
 
+        //Destination File Path Click Function
         private void SavefilePath_Click(object sender, RoutedEventArgs e)
         {
             var saveFile = new SaveFileDialog();
-            saveFile.Filter= "All Files(*.*) | *.*";
+            saveFile.Filter = "All Files(*.*) | *.*";
             saveFile.ShowDialog();
             destPath = saveFile.FileName;
             if (destPath.Length > 0)
@@ -147,5 +143,7 @@ namespace MySafeGUI
                 saveFilePath.Text = "Decrypted Path: No path was chosen";
             }
         }
+        #endregion
+
     }
 }

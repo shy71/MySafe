@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 using MySafe_Adapter;
+
+
+/*
+ *Created by Ezra Block & Shy Tennenbaum
+ */
+
 namespace MySafeGUI
 {
     /// <summary>
@@ -22,15 +18,21 @@ namespace MySafeGUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Current vault
         FileVault vault = null;
+
         public MainWindow()
         {
             InitializeComponent();
-            Directory.SetCurrentDirectory("../../../Simulation");
+            if (!Directory.GetFiles(Directory.GetCurrentDirectory()).Any((name) => name.Contains("Bridge DLL.dll")))
+                Directory.SetCurrentDirectory("../../../Output");
             vault = new FileVault();
             ClearOpenVault();
 
         }
+
+        #region Clicks Functions
+        //Encryption Click Function
         private void EncryptBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -41,12 +43,12 @@ namespace MySafeGUI
                 //open pop-up window for choosing file and encrypting it
                 new EncryptionWindow(vault).ShowDialog();
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
-
+        //Decryption Click Function
         private void DecryptBtn_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -60,7 +62,7 @@ namespace MySafeGUI
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
-
+        //Information Click Function
         private void Information_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("This program is an Intel SGX based program in charge of encrypting files in a way \n"
@@ -69,7 +71,7 @@ namespace MySafeGUI
                             + "WARNING! \nThis program only works on computers that support Intel SGX.",
                             "Description", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
-
+        //Create Vault Click Function
         private void CreateVault_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -78,7 +80,7 @@ namespace MySafeGUI
                     throw new Exception("There is already an open vault! please close it before opening a new one!");
                 new VaultCreationWindow(vault).ShowDialog();
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
@@ -90,22 +92,7 @@ namespace MySafeGUI
                 }
             }
         }
-        private void SetOpenVault()
-        {
-            vaultLabel.Text ="Open Vault: " +vault.FileName;
-            vaultLabel.ToolTip = vault.FilePath;
-           // EncryptBtn.IsEnabled = true;
-           // DecryptBtn.IsEnabled = true;
-        }
-        private void ClearOpenVault()
-        {
-            vaultLabel.Foreground = Brushes.DarkRed;
-
-            vaultLabel.Text = "No Vault is open";
-            vaultLabel.ToolTip = "Click the Vault menu to create/load a vault";
-        //    EncryptBtn.IsEnabled = false;
-//DecryptBtn.IsEnabled = false;
-        }
+        //Load Vault Click Function
         private void LoadVault_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -126,7 +113,7 @@ namespace MySafeGUI
                 }
             }
         }
-
+        //Close Vault Click Function
         private void CloseVault_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -147,6 +134,27 @@ namespace MySafeGUI
                     ClearOpenVault();
                 }
             }
+        }
+        #endregion
+
+
+        /// <summary>
+        /// Set UI to the opened Vault
+        /// </summary>
+        private void SetOpenVault()
+        {
+            vaultLabel.Text = "Open Vault: " + vault.FileName;
+            vaultLabel.ToolTip = vault.FilePath;
+        }
+        /// <summary>
+        /// Clear UI from the opened vault
+        /// </summary>
+        private void ClearOpenVault()
+        {
+            vaultLabel.Foreground = Brushes.DarkRed;
+
+            vaultLabel.Text = "No Vault is open";
+            vaultLabel.ToolTip = "Click the Vault menu to create/load a vault";
         }
     }
 }

@@ -1,17 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using MySafe_Adapter;
 using Microsoft.Win32;
 using System.Threading;
@@ -22,10 +11,14 @@ namespace MySafeGUI
     /// Interaction logic for EncryptionWindow.xaml
     /// </summary>
     public partial class EncryptionWindow : Window
-    {
+    {   
+        //Current Vault
         FileVault vault;
-        string srcPath="";
-        string destPath="";
+        //Source File Path
+        string srcPath = "";
+        //Destination File Path
+        string destPath = "";
+
         public EncryptionWindow(FileVault v)
         {
             InitializeComponent();
@@ -37,7 +30,8 @@ namespace MySafeGUI
         {
             InitializeComponent();
         }
-
+        #region Clicks Functions
+        //Source File Path Click Function
         private void OpenfilePath_Click(object sender, RoutedEventArgs e)
         {
             var openFile = new OpenFileDialog();
@@ -50,7 +44,7 @@ namespace MySafeGUI
                 openFilePath.Text = System.IO.Path.GetFileName(srcPath);
                 if (destPath.Length == 0)
                 {
-                    destPath = System.IO.Path.GetDirectoryName(srcPath) +"\\"+ System.IO.Path.GetFileName(srcPath) + ".ens";
+                    destPath = System.IO.Path.GetDirectoryName(srcPath) + "\\" + System.IO.Path.GetFileName(srcPath) + ".ens";
                     saveFilePath.ToolTip = destPath;
                     saveFilePath.Text = System.IO.Path.GetFileName(destPath);
                 }
@@ -67,6 +61,7 @@ namespace MySafeGUI
                 }
             }
         }
+        //Encrypt Click Function
         private void Encrypt_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -84,14 +79,14 @@ namespace MySafeGUI
                 progressBar.Value = 0;
                 progressBar.ToolTip = 0;
                 label.Visibility = Visibility.Visible;
-                MessageBoxResult result= MessageBox.Show("Do you want to delete the orignal file?\nThe file will be deleted if and when the process will finsih successfully", "Delete the orignal file", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                MessageBoxResult result = MessageBox.Show("Do you want to delete the orignal file?\nThe file will be deleted if and when the process will finsih successfully", "Delete the orignal file", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Cancel)
                     return;
                 new Task((password) =>
                 {
                     try
                     {
-                        vault.EncryptFile(srcPath, destPath, password.ToString(), MessageBoxResult.Yes==result);
+                        vault.EncryptFile(srcPath, destPath, password.ToString(), MessageBoxResult.Yes == result);
                         Dispatcher.Invoke(() =>
                         {
                             progressBar.Value = 100;
@@ -106,7 +101,7 @@ namespace MySafeGUI
                             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
                         });
                     }
-        }, password.GetText()).Start();
+                }, password.GetText()).Start();
                 new Task(() =>
                 {
                     double progress = 0;
@@ -117,7 +112,7 @@ namespace MySafeGUI
                         Dispatcher.Invoke(() =>
                         {
                             progressBar.Value = progress;
-                            progressBar.ToolTip =Math.Round(progress,2);
+                            progressBar.ToolTip = Math.Round(progress, 2);
                         });
                     }
                 }).Start();
@@ -129,7 +124,7 @@ namespace MySafeGUI
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
-
+        //Destination File Path Click Function
         private void SavefilePath_Click(object sender, RoutedEventArgs e)
         {
             var saveFile = new SaveFileDialog();
@@ -150,5 +145,7 @@ namespace MySafeGUI
                 saveFilePath.Text = "Destnation path: No file was chosen";
             }
         }
+        #endregion
+
     }
 }
