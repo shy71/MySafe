@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MySafeGUI"
         mc:Ignorable="d"
-        Title="VaultCreationWindow" Height="200" Width="300" MinWidth="240">
+        Title="Create Vault" Height="200" Width="300" MinWidth="240">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>

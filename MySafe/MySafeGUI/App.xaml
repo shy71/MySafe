@@ -4,23 +4,23 @@
              xmlns:local="clr-namespace:MySafeGUI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style TargetType="Window">
-            <Setter Property="Background" Value="#FFA50221"/>
+        <!--<Style TargetType="Window">
+            <Setter Property="Background" Value="Black"/>
         </Style>
         <Style TargetType="Button">
-            <Setter Property="Background" Value="DarkGoldenrod" />
-            <Setter Property="Foreground" Value="Maroon" />
+            <Setter Property="Background" Value="MediumSlateBlue" />
+            <Setter Property="Foreground" Value="Black" />
             <Setter Property="FontFamily" Value="Comic Sans MS" />
         </Style>
         <Style TargetType="TextBox">
             <Style.Setters>
-                <Setter Property="Background" Value="White" />
+                <Setter Property="Background" Value="Blue" />
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="BorderBrush" Value="Black"/>
                 <Setter Property="Foreground" Value="Gray"/>
                 <Setter Property="Text" Value="{DynamicResource descriptionString}"/>
             </Style.Setters>
-        </Style>
+        </Style>-->
     </Application.Resources>
 </Application>

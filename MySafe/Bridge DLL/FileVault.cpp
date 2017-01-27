@@ -113,7 +113,7 @@ void FileVault::load_valut(char * path, char * master_password)
 	valut_open = true;
 }
 FileVault::FileVault() {}
-void FileVault::encrypt_file(char * path,char* new_path,char * file_password)
+void FileVault::encrypt_file(char * path,char* new_path,char * file_password,bool delete_original)
 {
 	if (middle_of_process)
 		throw "File Vault is in the middle of anther process! Please wait until it is over!";
@@ -124,8 +124,10 @@ void FileVault::encrypt_file(char * path,char* new_path,char * file_password)
 	middle_of_process = false;
 	if (res)
 		throw make_error_exception("Encrypt File", res);
+	if (delete_original)
+		remove(path);
 }
-void FileVault::decrypt_file(char * path, char* new_path, char * file_password)
+void FileVault::decrypt_file(char * path, char* new_path, char * file_password,bool delete_encrypted)
 {
 	if (middle_of_process)
 		throw "File Vault is in the middle of anther process! Please wait until it is over!";
@@ -136,6 +138,8 @@ void FileVault::decrypt_file(char * path, char* new_path, char * file_password)
 	middle_of_process = false;
 	if (res)
 		throw make_error_exception("Decrypt File", res);
+	if (delete_encrypted)
+		remove(path);
 }
 void FileVault::changer_user_password(char * path, char * old_password, char * new_password) {}
 void FileVault::SetLastErrorMessage(const char * error)

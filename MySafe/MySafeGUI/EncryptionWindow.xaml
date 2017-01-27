@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MySafeGUI"
         mc:Ignorable="d"
-        Title="Encryption Window" Height="200" Width="300">
+        Title="Encrypt File" Height="200" Width="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -16,9 +16,9 @@
         </Grid.RowDefinitions>
 
         <TextBlock x:Name="openFilePath" VerticalAlignment="Center" FontSize="15"/>
-        <Button  Opacity="0.2" Click="OpenfilePath_Click" IsEnabled="{Binding ElementName=openFilePath, Path=IsEnabled}" ToolTip="{Binding ElementName=openFilePath, Path=ToolTip}"/>
+        <Button  Opacity="0.2" Click="OpenfilePath_Click" ToolTip="{Binding ToolTip, ElementName=openFilePath}"/>
         <TextBlock x:Name="saveFilePath" VerticalAlignment="Center" FontSize="15" Grid.Row="1"/>
-        <Button Opacity="0.2" Click="SavefilePath_Click" Grid.Row="1" IsEnabled="{Binding ElementName=saveFilePath, Path=IsEnabled}" ToolTip="{Binding ElementName=saveFilePath, Path=ToolTip}"/>
+        <Button Opacity="0.2" Click="SavefilePath_Click" Grid.Row="1" ToolTip="{Binding ToolTip, ElementName=saveFilePath}"/>
         <local:TextControl x:Name="password" Str="File password" Grid.Row="2" FontS="15"/>
         <Button x:Name="encryptBtn" Grid.Row="3" Content="Encrypt Vault" Click="Encrypt_Click"/>
         <ProgressBar x:Name="progressBar" Grid.Row="4"/>
