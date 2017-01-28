@@ -3,12 +3,8 @@
 #include "FileManger.h"
 #include "FileVault.h"
 using namespace std;
-void my_print3(char* str, size_t len)
-{
-	for (int i = 0; i < len; i++)
-		cout << std::hex << ((int)((uint8_t)str[i])) << ",";
-	cout << endl << endl;
-}
+
+#pragma region 	Output Functions
 void FileManger::write_file(char * path, char* buffer, size_t size)
 {
 	std::ofstream file;
@@ -18,12 +14,12 @@ void FileManger::write_file(char * path, char* buffer, size_t size)
 	file.write(buffer, size);
 	file.close();
 }
-void FileManger::encalve_write_end_of_open_file(char * path, char* buffer, size_t size,int call_type)
+void FileManger::encalve_write_end_of_open_file(char * path, char* buffer, size_t size, int call_type)
 {
 	static 	std::ofstream file;
-	if (call_type ==0)
+	if (call_type == 0)
 	{
-		if(file.is_open())
+		if (file.is_open())
 			throw "You can't open when a file is already opened";
 
 		file.open(path, ios_base::binary);
@@ -58,18 +54,12 @@ void FileManger::encalve_write_end_of_open_file(char * path, char* buffer, size_
 		remove(path);
 	}
 }
-int FileManger::getFileSize(const char * path)
-{
-	ifstream mySource;
-	mySource.open(path, ios_base::binary);
-	mySource.seekg(0, ios_base::end);
-	int size = mySource.tellg();
-	mySource.close();
-	return size;
-}
+#pragma endregion
+
+#pragma region 	Input Functions
 void FileManger::read_file(char * path, char* buffer, size_t size, size_t *actual_len)
 {
-	int fileSize = getFileSize(path);
+	int fileSize = get_file_size(path);
 	if (fileSize < size)
 		if (actual_len == NULL)
 		{
@@ -88,7 +78,7 @@ void FileManger::read_file(char * path, char* buffer, size_t size, size_t *actua
 	file.close();
 
 }
-void FileManger::read_part_open_file(char * path, char* buffer, size_t size, size_t *actual_len,int call_type)
+void FileManger::read_part_open_file(char * path, char* buffer, size_t size, size_t *actual_len, int call_type)
 {
 	static int fileSize;
 	static int counter;
@@ -99,18 +89,9 @@ void FileManger::read_part_open_file(char * path, char* buffer, size_t size, siz
 		file.open(path, ios_base::binary);
 		if (!file.is_open())
 			throw "File wasn't open";
-		fileSize = getFileSize(path);
+		fileSize = get_file_size(path);
 		counter = 0;
 		FileVault::getFileVault()->process_percentage = 0;
-	}
-	else if (call_type == 2)
-	{
-		counter = 0;
-		fileSize = 0;
-		if (!file.is_open())
-			throw "File wasn't open";
-		file.close();
-		FileVault::getFileVault()->process_percentage = 99.9;
 	}
 	else if (call_type == 1)
 	{
@@ -126,9 +107,30 @@ void FileManger::read_part_open_file(char * path, char* buffer, size_t size, siz
 				*actual_len = size;
 		file.read(buffer, size);
 		counter += *actual_len;
-		FileVault::getFileVault()->process_percentage = ((double)counter /(double) fileSize)*100;
+		FileVault::getFileVault()->process_percentage = ((double)counter / (double)fileSize) * 100;
+	}
+	else if (call_type == 2)
+	{
+		counter = 0;
+		fileSize = 0;
+		if (!file.is_open())
+			throw "File wasn't open";
+		file.close();
+		FileVault::getFileVault()->process_percentage = 99.9;
 	}
 
 }
+int FileManger::get_file_size(const char * path)
+{
+	ifstream mySource;
+	mySource.open(path, ios_base::binary);
+	mySource.seekg(0, ios_base::end);
+	int size = mySource.tellg();
+	mySource.close();
+	return size;
+}
+#pragma endregion
+
+
 
 

@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.IO;
-using System.Windows.Shapes;
 using MySafe_Adapter;
 using Microsoft.Win32;
 
@@ -22,8 +10,10 @@ namespace MySafeGUI
     /// </summary>
     public partial class LoadVaultWindow : Window
     {
+        //Current Vault
         FileVault vault;
-        string path;
+        //Vault File Path
+        string path="";
         public LoadVaultWindow(FileVault v)
         {
             InitializeComponent();
@@ -35,7 +25,8 @@ namespace MySafeGUI
         {
             InitializeComponent();
         }
-
+        #region Clicks Functions
+        //File Path Click Function
         private void filePath_Click(object sender, RoutedEventArgs e)
         {
             var openFile = new OpenFileDialog();
@@ -51,12 +42,12 @@ namespace MySafeGUI
             }
             else
             {
-                filePath.ToolTip = "Press to Choose vault file";
+                filePath.ToolTip = "Press to Chose vault file";
                 filePath.Text = "Path: No file was chosen";
 
             }
         }
-
+        //Open Vault Click Function
         private void Open_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -74,5 +65,6 @@ namespace MySafeGUI
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
+        #endregion
     }
 }

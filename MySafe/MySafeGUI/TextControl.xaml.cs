@@ -13,7 +13,7 @@ namespace MySafeGUI
     /// </summary>
     public partial class TextControl : UserControl, INotifyPropertyChanged
     {
-        public event EventHandler<EventValue> Changed;
+        public event EventHandler<EventArgs> Changed;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -122,7 +122,7 @@ namespace MySafeGUI
                 ForeG = Brushes.Gray;
             }
             if (textBox.Text != Str && textBox.Text != null && Changed != null)//check affect! textBox.Foreground==Brushes.Black &&
-                Changed(this, new EventValue(textBox.Text, pName));
+                Changed(this, null);
         }
 
     }

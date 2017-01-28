@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MySafeGUI"
         x:Class="MySafeGUI.MainWindow"
         mc:Ignorable="d"
-        Title="My-Safe" Height="500" Width="800">
+        Title="My Safe" Height="500" Width="800" Icon="AppIcon.png">
     <Window.Background>
         <ImageBrush ImageSource="background.jpg"></ImageBrush>
     </Window.Background>
